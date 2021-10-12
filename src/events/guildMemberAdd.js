@@ -22,7 +22,7 @@ module.exports = async (client, member) => {
   const channel = member.guild.channels.cache.get(profile.greeter.welcome.channel);
   const content = modify(profile.greeter.welcome.message.text?.substr(0,2000), member);
   const wallpaper = await loadImage(join(wallpaperDir, wallpaperArr[Math.floor(Math.random() * wallpaperArr.length)]));
-  const avatar = await loadImage(member.user.displayAvatarURL({format: 'png'}));
+  const avatar = await loadImage(member.user.displayAvatarURL({format: 'png', size: 512 }));
 
   if (!channel || !profile.greeter.welcome.isEnabled) return;
 
@@ -48,7 +48,7 @@ module.exports = async (client, member) => {
 
   ctx.lineWidth = 15;
   ctx.lineCap = 'round';
-  ctx.strokeStyle = '#ffa500';
+  ctx.strokeStyle = 'rgb(255,247,125)';
   ctx.beginPath();
   ctx.moveTo(30, 60);
   ctx.arcTo(30,30,60,30,30);
@@ -71,7 +71,7 @@ module.exports = async (client, member) => {
   ctx.beginPath();
   ctx.arc(150, 180, 90, 0, Math.PI * 2);
   ctx.lineWidth = 25;
-  ctx.strokeStyle = "#ffa500";
+  ctx.strokeStyle = "rgb(255,247,125)";
   ctx.stroke();
   ctx.closePath();
   ctx.save();
@@ -85,14 +85,15 @@ module.exports = async (client, member) => {
   ctx.lineTo(canvas.width - 30, 440)
   ctx.lineTo(30, 440)
   ctx.closePath();
-  ctx.fillStyle = 'rgba(0,0,0, 0.7)'
+  ctx.fillStyle = 'rgba(57,50,56, 0.9)'
   ctx.fill();
 
   ctx.beginPath();
   ctx.moveTo(30, 278);
   ctx.lineTo(canvas.width - 30, 278)
-  ctx.strokeStyle = '#ffa500';
+  ctx.strokeStyle = 'rgb(255,247,125)';
   ctx.lineWidth = 6;
+  ctx.lineCap = 'box';
   ctx.stroke();
 
   ctx.beginPath();
@@ -101,20 +102,55 @@ module.exports = async (client, member) => {
   ctx.lineTo(canvas.width-60, 470);
   ctx.arcTo(canvas.width-30,470,canvas.width-30,440,30);
   ctx.closePath();
-  ctx.fillStyle = '#ffa500';
+  ctx.fillStyle = 'rgb(255,247,125)';
   ctx.fill();
 
   ctx.textAlign = "center";
   ctx.fillStyle = 'rgb(255,255,255)';
-  ctx.font = 'bold 35px Segoe UI, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"'
+  ctx.font = '40px Nerko One Regular ,"Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
+  ctx.strokeStyle = 'rgb(34,24,42)';
+  ctx.lineWidth = 5;
+  ctx.strokeText(member.user.tag, canvas.width / 2, 320, 650)
   ctx.fillText(member.user.tag, canvas.width / 2, 320, 650)
 
-  ctx.font = '25px Segoe UI, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
+  // Add nemu icon
+  const icon = await loadImage(join(__dirname, '..', 'assets', 'images', 'nemu', 'nemu-icon-1.png'));
+  ctx.shadowColor = '#000000';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetX = 5;
+  ctx.shadowOffsetY = 5;
+  ctx.drawImage(icon, canvas.width - 195 ,350 , 200, 150);
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
+
+  ctx.font = '25px Segoe UI, "Segoe UI Emoji"';
   ctx.fillText('🥕 has fallen into Nemusagi\'s Rabbit Hole! 🥕', canvas.width / 2, 355, 650);
 
-  ctx.fillStyle = '#ffa500'
-  ctx.font = 'bold 25px Segoe UI, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
-  ctx.fillText(`Member #${member.guild.memberCount}`, canvas.width / 2, 420, 650);
+
+  // Add Member Rank
+  ctx.fillStyle = 'rgb(255,247,125)'
+  ctx.font = '40px Nerko One Regular';
+  const nthMember = `${ordinalize(member.guild.memberCount)} Member`;
+  const nthWidth = ctx.measureText(nthMember).width;
+  ctx.beginPath();
+  ctx.moveTo((canvas.width/2) - nthWidth/2, 433);
+  ctx.lineTo((canvas.width/2) + nthWidth/2, 433);
+  ctx.strokeStyle = 'rgb(255,255,255)';
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 40;
+  ctx.shadowColor = '#000000';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetX = 5;
+  ctx.shadowOffsetY = 5;
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
+  ctx.strokeStyle = 'rgb(34,24,42)';
+  ctx.lineWidth = 5;
+  ctx.strokeText(nthMember, canvas.width / 2, 445, 650);
+  ctx.fillText(nthMember, canvas.width / 2, 445, 650);
 
   // Add nemu image
   const nemu = await loadImage(join(__dirname, '..', 'assets', 'images', 'nemu', 'nemu-chibi-1.png'));
