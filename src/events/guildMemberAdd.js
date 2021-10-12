@@ -42,8 +42,30 @@ module.exports = async (client, member) => {
   ctx.arcTo(30, canvas.height - 30, 30, canvas.height - 60, 30)
   ctx.lineTo(30, 60)
   ctx.arcTo(30, 30, 60, 30, 30)
-  ctx.fillStyle = 'rgba(0,0,0,0.5)'
-  ctx.fill()
+  ctx.fillStyle = 'rgba(0,0,0,0.6)'
+  ctx.fill();
+
+
+  ctx.lineWidth = 15;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = '#ffa500';
+  ctx.beginPath();
+  ctx.moveTo(30, 60);
+  ctx.arcTo(30,30,60,30,30);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(canvas.width - 60, 30);
+  ctx.arcTo(canvas.width - 30, 30, canvas.width - 30, 60, 30)
+  ctx.stroke();
+
+  // ctx.beginPath();
+  // ctx.moveTo(30,278);
+  // ctx.lineTo(canvas.width - 60, 30);
+  // ctx.arcTo(canvas.width - 30, 30, canvas.width - 30, 60, 30);
+  // ctx.lineTo(canvas.width - 30, 280);
+  // ctx.closePath();
+  // ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  // ctx.fill();
 
   ctx.beginPath();
   ctx.arc(canvas.width / 2, 170, 90, 0, Math.PI * 2);
@@ -62,7 +84,23 @@ module.exports = async (client, member) => {
   ctx.lineTo(canvas.width - 30, 440)
   ctx.lineTo(30, 440)
   ctx.closePath();
-  ctx.fillStyle = 'rgba(0,0,0, 0.8)'
+  ctx.fillStyle = 'rgba(0,0,0, 0.9)'
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(30, 278);
+  ctx.lineTo(canvas.width - 30, 278)
+  ctx.strokeStyle = '#ffa500';
+  ctx.lineWidth = 6;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(30,440);
+  ctx.arcTo(30,470,60,470,30);
+  ctx.lineTo(canvas.width-60, 470);
+  ctx.arcTo(canvas.width-30,470,canvas.width-30,440,30);
+  ctx.closePath();
+  ctx.fillStyle = '#ffa500';
   ctx.fill();
 
   ctx.textAlign = "center";
@@ -71,11 +109,16 @@ module.exports = async (client, member) => {
   ctx.fillText(member.user.tag, canvas.width / 2, 320, 650)
 
   ctx.font = '25px Segoe UI, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
-  ctx.fillText('has joined Nemusagi\'s Rabbit Hole!', canvas.width / 2, 355, 650);
+  ctx.fillText('🥕 has joined Nemusagi\'s Rabbit Hole! 🥕', canvas.width / 2, 355, 650);
 
-  ctx.fillStyle = 'rgb(100,100,100)'
+  ctx.fillStyle = '#ffa500'
   ctx.font = 'bold 25px Segoe UI, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
   ctx.fillText(`Member #${member.guild.memberCount}`, canvas.width / 2, 420, 650);
+
+  // Add nemu image
+  const nemu = await loadImage(join(__dirname, '..', 'assets', 'images', 'nemu', 'nemu-chibi-1.png'));
+  ctx.drawImage(nemu, canvas.width - (canvas.width / 3) , (canvas.height / 2) - 200 , 250, 250);
+
 
   // End
 
