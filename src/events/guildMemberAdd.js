@@ -150,6 +150,7 @@ module.exports = async (client, member) => {
   ctx.strokeStyle = 'rgb(34,24,42)';
   ctx.lineWidth = 5;
   ctx.strokeText(nthMember, canvas.width / 2, 445, 650);
+  ctx.beginPath();
   ctx.fillText(nthMember, canvas.width / 2, 445, 650);
 
   // Add nemu image
