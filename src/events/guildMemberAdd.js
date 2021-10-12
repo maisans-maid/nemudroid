@@ -107,7 +107,7 @@ module.exports = async (client, member) => {
 
   ctx.textAlign = "center";
   ctx.fillStyle = 'rgb(255,255,255)';
-  ctx.font = '40px Nerko One Regular, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
+  ctx.font = '40px Nerko One Regular, "Hiragino Kaku", "Code2003", "Unifont"';
   ctx.strokeStyle = 'rgb(34,24,42)';
   ctx.lineWidth = 5;
   ctx.beginPath();
