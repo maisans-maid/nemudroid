@@ -13,7 +13,7 @@ module.exports = async (client, member) => {
     profile = client.localcache.serverprofiles[member.guild.id];
   };
   if (!profile){
-    return interaction.reply('\\❌ Could not connect to database');
+    return;
   };
 
   const wallpaperDir = join(__dirname, '..', 'assets', 'images', 'welcomewallpapers')
@@ -67,14 +67,14 @@ module.exports = async (client, member) => {
 
   ctx.textAlign = "center";
   ctx.fillStyle = 'rgb(255,255,255)';
-  ctx.font = 'bold 35px Segoe UI'
+  ctx.font = 'bold 35px Segoe UI, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"'
   ctx.fillText(member.user.tag, canvas.width / 2, 320, 650)
 
-  ctx.font = '25px Segoe UI';
+  ctx.font = '25px Segoe UI, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
   ctx.fillText('has joined Nemusagi\'s Rabbit Hole!', canvas.width / 2, 355, 650);
 
   ctx.fillStyle = 'rgb(100,100,100)'
-  ctx.font = 'bold 25px Segoe UI';
+  ctx.font = 'bold 25px Segoe UI, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
   ctx.fillText(`Member #${member.guild.memberCount}`, canvas.width / 2, 420, 650);
 
   // End

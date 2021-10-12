@@ -24,6 +24,8 @@ const client = new Client({ intents: [
   // Intents.FLAGS.DIRECT_MESSAGE_TYPING,
 ] });
 
+require('./fonts');
+
 /*=============================INIT DATABASE=================================*/
 client.database.init();
 /*===========================================================================*/
