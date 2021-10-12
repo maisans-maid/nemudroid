@@ -110,6 +110,7 @@ module.exports = async (client, member) => {
   ctx.font = '40px Nerko One Regular, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
   ctx.strokeStyle = 'rgb(34,24,42)';
   ctx.lineWidth = 5;
+  ctx.beginPath();
   ctx.strokeText(member.user.tag, canvas.width / 2, 320, 650)
   ctx.fillText(member.user.tag, canvas.width / 2, 320, 650)
 
@@ -149,6 +150,7 @@ module.exports = async (client, member) => {
   ctx.shadowOffsetY = 0;
   ctx.strokeStyle = 'rgb(34,24,42)';
   ctx.lineWidth = 5;
+  ctx.beginPath();
   ctx.strokeText(nthMember, canvas.width / 2, 445, 650);
   ctx.beginPath();
   ctx.fillText(nthMember, canvas.width / 2, 445, 650);
