@@ -67,15 +67,16 @@ module.exports = async (client, member) => {
   // ctx.fillStyle = 'rgba(0,0,0,0.3)';
   // ctx.fill();
 
+  // Avatar
   ctx.beginPath();
-  ctx.arc(canvas.width / 2, 170, 90, 0, Math.PI * 2);
+  ctx.arc(150, 180, 90, 0, Math.PI * 2);
   ctx.lineWidth = 25;
-  ctx.strokeStyle = "rgba(0,0,0,0.9)";
+  ctx.strokeStyle = "#ffa500";
   ctx.stroke();
   ctx.closePath();
   ctx.save();
   ctx.clip();
-  ctx.drawImage(avatar, (canvas.width / 2) - 90, 170 - 90, 180, 180)
+  ctx.drawImage(avatar, 150 - 90, 180 - 90, 180, 180)
   ctx.restore();
 
   ctx.beginPath();
@@ -84,7 +85,7 @@ module.exports = async (client, member) => {
   ctx.lineTo(canvas.width - 30, 440)
   ctx.lineTo(30, 440)
   ctx.closePath();
-  ctx.fillStyle = 'rgba(0,0,0, 0.9)'
+  ctx.fillStyle = 'rgba(0,0,0, 0.7)'
   ctx.fill();
 
   ctx.beginPath();
@@ -109,7 +110,7 @@ module.exports = async (client, member) => {
   ctx.fillText(member.user.tag, canvas.width / 2, 320, 650)
 
   ctx.font = '25px Segoe UI, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
-  ctx.fillText('🥕 has joined Nemusagi\'s Rabbit Hole! 🥕', canvas.width / 2, 355, 650);
+  ctx.fillText('🥕 has fallen into Nemusagi\'s Rabbit Hole! 🥕', canvas.width / 2, 355, 650);
 
   ctx.fillStyle = '#ffa500'
   ctx.font = 'bold 25px Segoe UI, "Segoe UI Emoji", "Segoe UI Symbol", "Hiragino Kaku", "Code2003", "Unifont"';
