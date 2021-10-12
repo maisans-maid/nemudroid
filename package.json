@@ -8,6 +8,9 @@
     "deploy-commands": "node src/deploy-commands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "16.11.0"
+  }
   "author": "",
   "license": "ISC",
   "dependencies": {
