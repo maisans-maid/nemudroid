@@ -19,7 +19,7 @@ MOD (Moderators) // Mods will accept requests
 - This bot uses the node engine [>=16] and discord.js library [v13] to run.
 
 ### Current commands
-- View [src/commands](https://github.com/maisans-maid/nemudroid/src/commands) folder.
+- View [src/commands](https://github.com/maisans-maid/nemudroid/tree/main/src/commands) folder.
 
 ### Hosting
 - ⚠️ This bot is hosted on [**Heroku** free tier](https://herokuapp.com) and will only run 25 days per month. (Expect 4-6 days downtime per month).
