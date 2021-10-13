@@ -2,6 +2,7 @@ const { createCanvas, loadImage } = require('node-canvas');
 const { readdirSync } = require('fs');
 const { join } = require('path');
 const moment = require('moment');
+const _ = require('lodash');
 
 module.exports = async (client, member) => {
 
@@ -16,12 +17,20 @@ module.exports = async (client, member) => {
     return;
   };
 
+  // Wallpaper Randomizer
   const wallpaperDir = join(__dirname, '..', 'assets', 'images', 'welcomewallpapers')
-  const wallpaperArr = readdirSync(wallpaperDir).filter(x => x.split('.').pop() === 'png');
+  const wallpaperArr = readdirSync(wallpaperDir);
+  const selector = _.random(0, wallpaperArr.length - 1);
+  const wallpaper = await loadImage(join(wallpaperDir, wallpaperArr[selector]));
+  // Chibi Randomizer
+  const chibiDir = join(__dirname, '..', 'assets', 'images', 'chibi');
+  const chibiArr = readdirSync(chibiDir).filter(x => x.split('.').pop() === 'png');
+  const indexer  = _.random(0, chibiArr.length - 1);
+  const chibi    = await loadImage(join(chibiDir, chibiArr[indexer]));
+
 
   const channel = member.guild.channels.cache.get(profile.greeter.welcome.channel);
   const content = modify(profile.greeter.welcome.message.text?.substr(0,2000), member);
-  const wallpaper = await loadImage(join(wallpaperDir, wallpaperArr[Math.floor(Math.random() * wallpaperArr.length)]));
   const avatar = await loadImage(member.user.displayAvatarURL({format: 'png', size: 512 }));
 
   if (!channel || !profile.greeter.welcome.isEnabled) return;
@@ -45,7 +54,6 @@ module.exports = async (client, member) => {
   ctx.fillStyle = 'rgba(0,0,0,0.6)'
   ctx.fill();
 
-
   ctx.lineWidth = 15;
   ctx.lineCap = 'round';
   ctx.strokeStyle = 'rgb(255,247,125)';
@@ -58,26 +66,30 @@ module.exports = async (client, member) => {
   ctx.arcTo(canvas.width - 30, 30, canvas.width - 30, 60, 30)
   ctx.stroke();
 
-  // ctx.beginPath();
-  // ctx.moveTo(30,278);
-  // ctx.lineTo(canvas.width - 60, 30);
-  // ctx.arcTo(canvas.width - 30, 30, canvas.width - 30, 60, 30);
-  // ctx.lineTo(canvas.width - 30, 280);
-  // ctx.closePath();
-  // ctx.fillStyle = 'rgba(0,0,0,0.3)';
-  // ctx.fill();
-
   // Avatar
-  ctx.beginPath();
-  ctx.arc(150, 180, 90, 0, Math.PI * 2);
-  ctx.lineWidth = 25;
-  ctx.strokeStyle = "rgb(255,247,125)";
-  ctx.stroke();
-  ctx.closePath();
-  ctx.save();
-  ctx.clip();
-  ctx.drawImage(avatar, 150 - 90, 180 - 90, 180, 180)
-  ctx.restore();
+  if (wallpaperArr[selector] === '2.png'){
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, 180, 90, 0, Math.PI * 2);
+    ctx.lineWidth = 25;
+    ctx.strokeStyle = "rgb(255,247,125)";
+    ctx.stroke();
+    ctx.closePath();
+    ctx.save();
+    ctx.clip();
+    ctx.drawImage(avatar, (canvas.width / 2) - 90, 180 - 90, 180, 180)
+    ctx.restore();
+  } else {
+    ctx.beginPath();
+    ctx.arc(150, 180, 90, 0, Math.PI * 2);
+    ctx.lineWidth = 25;
+    ctx.strokeStyle = "rgb(255,247,125)";
+    ctx.stroke();
+    ctx.closePath();
+    ctx.save();
+    ctx.clip();
+    ctx.drawImage(avatar, 150 - 90, 180 - 90, 180, 180)
+    ctx.restore();
+  };
 
   ctx.beginPath();
   ctx.moveTo(30, 280)
@@ -115,7 +127,7 @@ module.exports = async (client, member) => {
   ctx.fillText(member.user.tag, canvas.width / 2, 320, 650)
 
   // Add nemu icon
-  const icon = await loadImage(join(__dirname, '..', 'assets', 'images', 'nemu', 'nemu-icon-1.png'));
+  const icon = await loadImage(join(__dirname, '..', 'assets', 'images', 'icon', 'nemu-icon-1.png'));
   ctx.shadowColor = '#000000';
   ctx.shadowBlur = 20;
   ctx.shadowOffsetX = 5;
@@ -153,18 +165,24 @@ module.exports = async (client, member) => {
   ctx.strokeText(nthMember, canvas.width / 2, 445, 650);
   ctx.fillText(nthMember, canvas.width / 2, 445, 650);
 
-  // Add nemu image
-  const nemu = await loadImage(join(__dirname, '..', 'assets', 'images', 'nemu', 'nemu-chibi-1.png'));
-  ctx.drawImage(nemu, canvas.width - (canvas.width / 3) , (canvas.height / 2) - 200 , 250, 250);
+  // chibi placement
+  if (wallpaperArr[selector] === '2.png'){
+    ctx.shadowColor = '#000000';
+    ctx.shadowBlur = 20;
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 5;
+    ctx.drawImage(chibi, 30 , 335 , 170, 170);
+    ctx.shadowBlur = 20;
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 5;
+  } else {
+    ctx.drawImage(chibi, canvas.width - (canvas.width / 3) , (canvas.height / 2) - 225 , 250, 250);
+  };
 
-
-  // End
-
-  channel.send({ content, files: [{
+  return channel.send({ content, files: [{
     attachment: canvas.toBuffer(),
-    name: 'welcome_nemudroid.png'
+    name: `welcome_nemudroid.${wallpaperArr[selector].split('.').pop()}`
   }]}).catch(console.error);
-
 };
 
 function ordinalize(n = 0){
