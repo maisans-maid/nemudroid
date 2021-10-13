@@ -42,6 +42,10 @@ const command = new SlashCommandBuilder()
 .addSubcommand(subcommand => subcommand
   .setName('disable')
   .setDescription('Disable this feature')
+)
+.addSubcommand(subcommand => subcommand
+  .setName('test')
+  .setDescription('Test the message')
 );
 
 
@@ -133,6 +137,11 @@ module.exports = {
           return interaction.reply(`\\❌ The Following Error was encountered: ${error.message}`);
         });
       };
+    };
+
+    if (interaction.options._subcommand === 'test'){
+      client.emit('guildMemberAdd', interaction.member);
+      return interaction.reply(`\\✔️ Message was sent!`);
     };
   }
 };
