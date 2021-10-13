@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, hideLinkEmbed } = require('@discordjs/builders');
-const { MessageEmbed, MessageActionRow, MessageButton, { Permissions: FLAGS }} = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageButton, Permissions: { FLAGS }} = require('discord.js');
 
 const command = new SlashCommandBuilder()
 .setName('intro')

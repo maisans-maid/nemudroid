@@ -40,6 +40,10 @@ try {
       const cmd = require(join(__dirname, 'commands', command));
       client.commands.set(cmd.builder.name, cmd.execute);
     } catch (e){
+
+      console.log(e)
+      process.exit(0)
+      
       console.log('\x1b[33m[!]\x1b[0m ' + e.message + ' (on ' + __filename + ')');
     };
   };
@@ -64,7 +68,6 @@ try {
   console.log('\x1b[31m[X]\x1b[0m ' + e.message + ' (on ' + __filename + ')');
 };
 /*===========================================================================*/
-
 
 
 /*==============================LOGIN CLIENT=================================*/
