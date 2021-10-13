@@ -31,7 +31,7 @@ module.exports = {
   builder: command,
   execute: async (client, interaction) => {
 
-    const profile = await client.database.models.guildSchema.findById(interaction.guild.id);
+    let profile = await client.database.models.guildSchema.findById(interaction.guild.id);
     if (!profile){
       profile = new client.database.models.guildSchema({_id: interaction.guild.id});
     };
