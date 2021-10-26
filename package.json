@@ -1,11 +1,12 @@
 {
   "name": "nemdroid",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Nemu's personal Android",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "deploy-commands": "node src/deploy-commands.js",
+    "start": "node index.js",
+    "deploy-commands": "node deploy-commands.js",
+    "deploy-commands-dev": "node deploy-commands-dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
