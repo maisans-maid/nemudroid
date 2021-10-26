@@ -5,10 +5,10 @@ module.exports = (client, oldPresence, newPresence) => {
   if (newPresence.userId !== '753150492380495894')
       return;
 
-  const { name, type, url } = newPresence.activities.filter(x => x.type !== 'CUSTOM')[0] || {};
+  const { name, type, url, details } = newPresence.activities.filter(x => x.type !== 'CUSTOM')[0] || {};
 
   if (name && type){
-      return client.user.setActivity(name, { type, url });
+      return client.user.setActivity(details || name, { type, url });
   } else {
       return console.log(client.user.setActivity('Nemuphobia', { type: 'PLAYING' }));
   };
