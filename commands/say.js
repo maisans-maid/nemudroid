@@ -20,7 +20,7 @@ module.exports = {
   execute: async (client, interaction) => {
 
     if (!interaction.member.permissions.has(FLAGS.MANAGE_GUILD)){
-      return interaction.reply(`\\❌ You are not allowed to use this command!`);
+      return interaction.reply({ content: `You are not allowed to use this command!`, ephemeral: true });
     };
 
     const content = interaction.options.getString('content');

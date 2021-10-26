@@ -21,7 +21,7 @@ module.exports = {
   execute: async (client, interaction) => {
 
     if (interaction.member.id !== '545427431662682112'){
-      return interaction.reply(`\\❌ You are not allowed to use this command! Contact my developer if you wish to have access.`);
+      return interaction.reply({ content: `You are not allowed to use this command! Contact my developer if you wish to have access.`, ephemeral: true });
     };
 
     const code      = interaction.options.getString('code')

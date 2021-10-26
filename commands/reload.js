@@ -15,13 +15,13 @@ module.exports = {
   execute: async (client, interaction) => {
 
     if (interaction.member.id !== '545427431662682112'){
-      return interaction.reply(`\\❌ You are not allowed to use this command! Contact my developer if you wish to have access.`);
+      return interaction.reply({ content: `You are not allowed to use this command! Contact my developer if you wish to have access.`, ephemeral: true });
     };
 
     const commandName = interaction.options.getString('command');
 
     if (!client.commands.get(commandName.toLowerCase())){
-      return interaction.reply(`\\❌ Command Module for **${commandName}** could not be found.`);
+      return interaction.reply({ content: `Command Module for **${commandName}** could not be found.`, ephemeral: true });
     };
 
     try {
@@ -29,10 +29,10 @@ module.exports = {
      const cmdModule = require(join(__dirname, commandName));
      client.commands.set(cmdModule.builder.name, cmdModule.execute);
 
-     return interaction.reply(`\\✔️ Command **${commandName}** has been reloaded.`);
+     return interaction.reply({ content: `Command **${commandName}** has been reloaded.`, ephemeral: true });
 
    } catch (err) {
-     return interaction.reply(`\\❌ ${err.message}`);
+     return interaction.reply({ content: err.message, ephemeral: true });
    };
   }
 };

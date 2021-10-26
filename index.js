@@ -21,7 +21,8 @@ const client = new Client({
 client.commands = new Collection();
 client.database = require('mongoose');
 client.localCache = {
-  guildSchema: new Collection()
+  guildSchema: new Collection(),
+  talkingUsers: new Collection()
 };
 
 client.database.connect(process.env.MONGO_URI, {

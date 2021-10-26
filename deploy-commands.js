@@ -10,7 +10,7 @@ const { join } = require('path');
 const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
 const commands = [];
-const filter = (f) => f.split('.').pop() === '.js';
+const filter = (f) => f.split('.').pop() === 'js';
 
 // Get commands to register
 for (const commandFile of readdirSync(join(__dirname, 'commands')).filter(f => filter(f))){
@@ -21,5 +21,5 @@ for (const commandFile of readdirSync(join(__dirname, 'commands')).filter(f => f
 };
 
 rest.put(Routes.applicationGuildCommands(CLIENTID, GUILDID),{ body: commands })
-.then(() => console.log('Successfully registered application commands.'))
+.then(() => console.log('Successfully registered application (/) commands.'))
 //.catch(e => console.log(e.rawError.errors.options['1']));
