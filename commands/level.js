@@ -21,7 +21,6 @@ module.exports = {
 
     const subdocument = document.xp.find(x => x.id === interaction.guildId) || { xp: 0, level: 1};
     const cap  = (level) => 50 * Math.pow(level, 2) + 250 * level;
-    const next = (level, xp) => cap(subdocument.level) - xp;
 
     //Calculations
     const content = `Info for **${user.tag}**
