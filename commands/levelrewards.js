@@ -45,7 +45,7 @@ module.exports = {
     const level      = interaction.options.getInteger('level');
     const role       = interaction.options.getRole('role');
 
-    if ((subcommand !== 'view') && !interaction.member.permissions.has(FLAGS.MANAGE_GUILD)){
+    if ((subcommand !== 'view') && !interaction.memberPermissions.has(FLAGS.MANAGE_GUILD)){
       return interaction.reply({ content: `You are not allowed to use this command!`, ephemeral: true });
     };
 

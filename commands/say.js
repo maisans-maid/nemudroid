@@ -19,7 +19,7 @@ module.exports = {
   builder: command,
   execute: async (client, interaction) => {
 
-    if (!interaction.member.permissions.has(FLAGS.MANAGE_GUILD)){
+    if (!interaction.memberPermissions.has(FLAGS.MANAGE_GUILD)){
       return interaction.reply({ content: `You are not allowed to use this command!`, ephemeral: true });
     };
 
