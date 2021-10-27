@@ -6,7 +6,7 @@ if ('BACKUPMODE' in process.env && new Date().getDate() < 26){
   process.exit(1);
 };
 
-const { Intents, Client, Collection } = require('discord.js');
+const { Intents, Client, Collection, Options } = require('discord.js');
 const { join } = require('path');
 const { readdirSync } = require('fs');
 
@@ -15,7 +15,13 @@ const client = new Client({
   presence: { status: 'dnd', activities: [{
     name: 'Nemuphobia',
     type: 'PLAYING',
-  }] }
+  }]},
+  makeCache: Options.cacheWithLimits({
+    messageManager: 0,
+    threadManager: 0,
+    reactionManager: 0,
+    presenceManager: 0
+  })
 });
 
 client.commands = new Collection();
