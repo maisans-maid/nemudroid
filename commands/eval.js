@@ -24,8 +24,7 @@ module.exports = {
       return interaction.reply({ content: `You are not allowed to use this command! Contact my developer if you wish to have access.`, ephemeral: true });
     };
 
-    const code      = interaction.options.getString('code')
-    const ephemeral = !interaction.options.getBoolean('show')
+    const code      = interaction.options.getString('code');
 
     try {
       let promise, output, download, type, color;
@@ -80,16 +79,19 @@ module.exports = {
         };
       };
 
-      const response = { embeds: [ embed ], ephemeral };
+      const response = { embeds: [ embed ], ephemeral: !interaction.options.getBoolean('show') };
 
       if (output.length > 1000){
         response['components'] = [ row ];
       };
 
-      return interaction.deferred ? interaction.editReply(response) : interaction.reply(response);
+      return interaction[interaction.deferred ? 'editReply' : 'reply'](response);
 
     } catch (e){
-      return interaction.deferred ? interaction.editReply({content: e.message, ephemeral}) : interaction.reply({content: e.message, ephemeral})
+      return interaction[interaction.deferred ? 'editReply' : 'reply']({
+        content: e.message + codeBlock('ls', truncate(e.stack.split(process.cwd()).join('Nemdroid:\\'), 1000)),
+        ephemeral: !interaction.options.getBoolean('show')
+      });
     };
   }
 };
