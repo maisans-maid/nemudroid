@@ -80,7 +80,7 @@ module.exports = {
     };
 
     if (subcommand === 'view'){
-      if (!document.rewards.length) return interaction.reply({ content: 'There are currnetly no assigned level rewards for this server.' })
+      if (!document.rewards.length) return interaction.reply({ content: 'There are currently no assigned level rewards for this server.' })
       return interaction.reply({ content: `These are the rewards you can get according to your level gain:\n\n${document.rewards.map(x => `Level **${x.level}** - ${roleMention(x.role)}`).join('\n')}`});
     };
   }
