@@ -10,6 +10,6 @@ module.exports = (client, oldPresence, newPresence) => {
   if (name && type){
       return client.user.setActivity(details || name, { type, url });
   } else {
-      return console.log(client.user.setActivity('Nemuphobia', { type: 'PLAYING' }));
+      return client.user.setActivity('Nemuphobia', { type: 'PLAYING' });
   };
 };

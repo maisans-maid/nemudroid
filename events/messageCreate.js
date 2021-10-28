@@ -53,13 +53,13 @@ module.exports = async (client, message) => {
     let _document = client.localCache.guildSchema.get(message.guild.id);
     if (!_document) _document = await _model.findById(message.guild.id);
     if (!_document) _document = new _model({ _id: message.guild.id });
-    if (_document instanceof Error) return console.log(_document.message);
+    if (_document instanceof Error) return;
 
     if (_document.xpBlacklist.some(id => id === message.channel.id)) return;
 
     let document = await model.findById(message.author.id);
     if (!document) document = new model({ _id: message.author.id });
-    if (document instanceof Error) return console.log(document.message);
+    if (document instanceof Error) return;
 
     return new Experience(document, _document, message.member)
     .add(_.random(/*MIN*/20, /*MAX*/30))
