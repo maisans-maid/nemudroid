@@ -19,20 +19,27 @@ MOD (Moderators) // Mods will accept requests
 - This bot uses the node engine [>=16] and discord.js library [v13] to run.
 
 ### Current commands
-- View [src/commands](https://github.com/maisans-maid/nemudroid/tree/main/src/commands) folder.
+- View [src/commands](https://github.com/maisans-maid/nemudroid/tree/master/commands) folder.
+
+### Special Features
+- Level System
+ - Level Cards
+ - Leaderboards
+ - Level Roles
+ - Level Blacklisting
 
 ### Hosting
 - ⚠️ This bot is hosted on [**Heroku** free tier](https://herokuapp.com) and will only run 25 days per month. (Expect 4-6 days downtime per month).
 - ⚠️ Do not attempt to self-host this bot. Developer(s) will not provide support for self-host attempts.
 
 ### Servers
-- [**NEMDROID DEVELOPMENT**](https://discord.gg/JxKpUYRS)      - Testing ground for the bot.
+- **NEMDROID DEVELOPMENT**      - Testing ground for the bot.
 - [**NEMUSAGI'S RABBIT HAVEN**](https://discord.gg/GCzEpb9wmf) - Nemu's Discord Server
 
 ---
 
 ### Nemu Kurosagi
-Yahoo! ヾ(＾∇＾) I'm Nemu! your local (indie) Pikasagi Vtuber who loves to sleep and play online games. #PHVtuber #VTuber
+Yahoo! ヾ(＾∇＾) I'm Nemu! your local (futa) Pikasagi Vtuber who loves to sleep and play online games. #PHVtuber #VTuber
 - [YouTube](https://www.youtube.com/c/NemusagiCh)
 - [Twitter](https://twitter.com/nemusagii)
 - [Facebook](https://www.facebook.com/nemurinnn)
