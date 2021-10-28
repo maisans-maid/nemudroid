@@ -109,7 +109,16 @@ module.exports = {
         })
         .catch(e => interaction[interaction.deferred ? 'deferReply' : 'reply']({ content: `Error: ${e.message}`, ephemeral: true }));
       } else {
-        const content = document.xpBlacklist.length ? `The following channels are blacklisted: ${new Intl.ListFormat('en-us').format(document.xpBlacklist.map(id => channelMention(id)))}` : 'There are no xp-blacklisted channels in this server!';
+        const unreadable = interaction.guild.channels.cache.filter(c => !document.xpBlacklist.includes(c.id) && c.type === 'GUILD_TEXT' && !c.permissionsFor(client.user).has(FLAGS.VIEW_CHANNEL));
+        const response = {
+          unreadable: (collection) => `⚠️ XP could not be processed on the following channels because of missing **View Channel** permissions: ${new Intl.ListFormat('en-US').format(collection.map(x => x.toString()))}`,
+          blacklisted: (array) => `The following channels are blacklisted: ${new Intl.ListFormat('en-us').format(document.xpBlacklist.map(id => channelMention(id)))}`,
+          noblacklist: 'There are no xp-blacklisted channels in this server!'
+        };
+        let content = document.xpBlacklist.length ? response.blacklisted(document.xpBlacklist) : response.noblacklist;
+
+        if (unreadable.size) content += `\n\n${response.unreadable(unreadable)}`;
+
         return interaction[interaction.deferred ? 'deferReply' : 'reply']({ content, ephemeral: true });
       };
     };
