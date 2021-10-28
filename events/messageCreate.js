@@ -3,8 +3,9 @@ const _model = require('../models/guildSchema.js');
 const _ = require('lodash');
 
 class Experience {
-  constructor(model, member){
+  constructor(model, _model, member){
     this.model = model;
+    this._model = _model;
     this.member = member;
     this.index = this.model.xp.findIndex(x => x.id === member.guild.id);
     if (!this.model.xp[this.index]){
@@ -27,9 +28,7 @@ class Experience {
   async incrementLevel(){
     this.data.level++;
 
-    const { rewards } = await _model.findById(this.member.guild.id) || {};
-
-    if (!rewards) return;
+    const { rewards } = this._model;
 
     const roles = [...Array(this.data.level + 1).keys()].slice(1)
     .map(level => this.member.guild.roles.cache.get(rewards.find(x => x.level === level)?.role))
@@ -51,11 +50,18 @@ module.exports = async (client, message) => {
   // XP FEAT
   const timestamp = client.localCache.talkingUsers.get(message.author.id) || 0;
   if (timestamp + 6e4 < Date.now()) {
+    let _document = client.localCache.guildSchema.get(message.guild.id);
+    if (!_document) _document = await _model.findById(message.guild.id);
+    if (!_document) _document = new _model({ _id: message.guild.id });
+    if (_document instanceof Error) return console.log(_document.message);
+
+    if (_document.xpBlacklist.some(id => id === message.channel.id)) return;
+
     let document = await model.findById(message.author.id);
     if (!document) document = new model({ _id: message.author.id });
     if (document instanceof Error) return console.log(document.message);
 
-    return new Experience(document, message.member)
+    return new Experience(document, _document, message.member)
     .add(_.random(/*MIN*/20, /*MAX*/30))
     .save()
     .then(() => client.localCache.talkingUsers.set(message.author.id, Date.now()));
