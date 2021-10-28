@@ -29,7 +29,7 @@ module.exports = {
 
     - Total XP Earned: **${subdocument.xp}**
 
-    *Rank cards (similar to dyno) will be available soon! Role rewards are already available - contact Server Moderators to add them. You may view the list of achievable rewards by using command \`/levelrewards view\`*
+    *Rank cards (similar to MEE6) will be available soon! Role rewards are already available - contact Server Moderators to add them. You may view the list of achievable rewards by using command \`/levelrewards view\`*
     `;
 
     interaction.reply({ content, ephemeral: true });
