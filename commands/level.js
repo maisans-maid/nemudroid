@@ -41,8 +41,7 @@ module.exports = {
 
     const canvas = createCanvas(315,560);
     const ctx = canvas.getContext('2d');
-
-    let wallpaper; try { wallpaper = await loadImage(document.wallpaper) } catch (e) { console.log(e) };
+    let wallpaper; try { wallpaper = await loadImage(document.wallpaper || '') } catch (e) { console.log(e) };
     const avatar = await loadImage(user.displayAvatarURL({ size: 512, format: 'png', dynamic: false }));
     const checkbox = await loadImage(join(__dirname, '../assets/images/icon/checkbox.png'));
     const nemuicon = await loadImage(join(__dirname, '../assets/images/icon/nemu-icon-1.png'));
