@@ -61,3 +61,7 @@ if ('DEVCLIENTTOKEN' in process.env){
 } else {
   client.login(process.env.TOKEN);
 };
+
+for (const event of ['uncaughtException', 'unhandledRejection']){
+  process.on(event, (err) => console.log(err));
+};
