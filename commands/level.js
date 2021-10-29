@@ -189,10 +189,6 @@ module.exports = {
       return 50 * Math.pow(level, 2) + 250 * level;
     };
 
-
-    const { writeFileSync } = require('fs');
-    return writeFileSync('./_nemdroid.png', canvas.toBuffer());
-
     return interaction.reply({ files: [{ name: 'nemDroidCard.png', attachment: canvas.toBuffer() }] });
   }
 };
