@@ -17,9 +17,11 @@ module.exports = {
 
     const user = interaction.options.getUser('user') || interaction.user;
 
-    if (user.bot) return;
+    if (user.bot) return interaction.reply({ ephemeral: true, content: 'Bots cannot earn xp!' });
 
     const subdocument_template = { _id: user.id, xp: [{ xp: 0, id: interaction.guild.id, level: 1 }]};
+
+    const timeout = setTimeout(() => !interaction.replied ? interaction.deferReply() : null, 2000);
 
     let collection = await model.find({ 'xp.id': interaction.guildId }, { 'xp.$': 1, '_id': 1, 'wallpaper': 1 });
     if (!collection.length)
@@ -31,7 +33,7 @@ module.exports = {
     const subdocument = document.xp[0];
 
     const member = await interaction.guild.members.fetch(user.id).catch(e => e);
-    if (member instanceof Error) return;
+    if (member instanceof Error) return interaction[interaction.deferred ? 'editReply' : 'reply']({ ephemeral: true, content: member.message });
     const emojis = { PLAYING: '🎮', LISTENING: '🔈', STREAMING: '📺', COMPETING: '⚔️', WATCHING: '📺' }
     const presence = member.presence?.activities.filter(x => x.type !== 'CUSTOM').splice(0,1).map(x => `${emojis[x.type]} ${x.type[0]}${x.type.substr(1,10).toLowerCase()} ${x.name}`)[0];
     const isNemu = user.id === '753150492380495894';
@@ -189,6 +191,6 @@ module.exports = {
       return 50 * Math.pow(level, 2) + 250 * level;
     };
 
-    return interaction.reply({ files: [{ name: 'nemDroidCard.png', attachment: canvas.toBuffer() }] });
+    return interaction[interaction.deferred ? 'editReply' : 'reply']({ files: [{ name: 'nemDroidCard.png', attachment: canvas.toBuffer() }] });
   }
 };
