@@ -1,0 +1,99 @@
+{
+     "multipliers":[
+          {
+             "id":1,
+             "name":"Carrot Seeds",
+             "description":"Gives you 110% exp gain for 1 hour!",
+             "price":100,
+             "multiplier":0.1,
+             "duration":36e5
+          },
+          {
+             "id":2,
+             "name":"Carrot Seedlings",
+             "description":"Gives you 110% exp gain for 3 hours!",
+             "price":250,
+             "multiplier":0.1,
+             "duration":108e5
+          },
+          {
+             "id":3,
+             "name":"Carrot Sprout",
+             "description":"Gives you 110% exp gain for 6 hours!",
+             "price":450,
+             "multiplier":0.1,
+             "duration":216e5
+          },
+          {
+             "id":4,
+             "name":"Normal Carrot",
+             "description":"Gives you 150% exp gain for 1 hour!",
+             "price":475,
+             "multiplier":0.5,
+             "duration":36e5
+          },
+          {
+             "id":5,
+             "name":"Fresh Carrot",
+             "description":"Gives you 150% exp gain for 3 hours!",
+             "price":1200,
+             "multiplier":0.5,
+             "duration":108e5
+          },
+          {
+             "id":6,
+             "name":"Cleaned Carrot",
+             "description":"Gives you 150% exp gain for 6 hours!",
+             "price":2100,
+             "multiplier":0.5,
+             "duration":216e5
+          },
+          {
+             "id":7,
+             "name":"Cooked Carrot",
+             "description":"Gives you 150% exp gain for 12 hours!",
+             "price":3800,
+             "multiplier":0.5,
+             "duration":432e5
+          },
+          {
+             "id":8,
+             "name":"Blessed Carrot",
+             "description":"Gives you 200% exp gain for 1 day!",
+             "price":7000,
+             "multiplier":1,
+             "duration":864e5
+          },
+          {
+             "id":9,
+             "name":"Rainbow Carrot",
+             "description":"Gives you 300% exp gain for 1 day!",
+             "price":10000,
+             "multiplier":2,
+             "duration":864e5
+          },
+          {
+             "id":10,
+             "name":"Divine Carrot",
+             "description":"Gives you 500% exp gain for 1 day!",
+             "price":14000,
+             "multiplier":4,
+             "duration":864e5
+          }
+     ],
+       "others":[
+          {
+             "id":201,
+             "name":"Wallpaper Change Scroll",
+             "description":"Changes your rank card wallpaper",
+             "price":500
+          },
+          {
+             "id":202,
+             "name":"Custom Tag Scroll",
+             "description":"Adds a custom 3-letter tag to your rank card for 1 week. [Does not work on MOD and GOD people]",
+             "price":1000,
+             "duration":6048e5
+          }
+     ]
+}
