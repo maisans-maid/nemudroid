@@ -103,6 +103,17 @@ module.exports = {
                 const fetched = await channel.messages
                     .fetch({
                         before: lastMessageId
+                    })
+                    .catch(error => error);
+
+                if (fetched instanceof Error)
+                    return interaction[
+                        interaction.deferred
+                        ? 'editReply'
+                        : 'reply'
+                    ]({
+                        ephemeral: true,
+                        content: `❌ Error: ${fetched.message}`
                     });
 
                 lastMessageId = fetched
