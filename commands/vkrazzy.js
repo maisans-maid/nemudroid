@@ -16,7 +16,8 @@ const command = new SlashCommandBuilder()
         [ 'Erian Osamu', 'Erian Osamu' ],
         [ 'Yoshida Hazuki', 'Yoshida Hazuki' ],
         [ 'Nemu Kurosagi', 'Nemu Kurosagi' ],
-        [ 'Pan the Bread', 'Pan the Bread' ]
+        [ 'Pan the Bread', 'Pan the Bread' ],
+        [ 'Teru Bozu', 'Teru Bozu' ]
     ])
     .setRequired(true)
 );
@@ -109,11 +110,11 @@ module.exports = {
             };
         };
 
+        const ReplyOptions = { content };
 
-        return interaction.reply({
-            ephemeral: true,
-            content,
-            components
-        });
+        if (Object.keys(data).filter(x => x !== 'Discord').length)
+            ReplyOptions.components = components;
+
+        return interaction.reply(ReplyOptions);
     }
 };
