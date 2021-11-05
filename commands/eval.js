@@ -165,7 +165,7 @@ module.exports = {
                     .setColor('RED')
                     .addField(
                         '\\📤 Output',
-                        codeblock(
+                        codeBlock(
                             'ls',
                             truncate(
                                 error.stack.split(process.cwd()).join('Nemdroid:\\'),
@@ -173,7 +173,7 @@ module.exports = {
                             )
                         )
                     )
-                    .setFooter(`Type: ${e.name}\u2000•\u2000 Evaluated in ${(elapsed / 1000).toFixed(2)}s.`)
+                    .setFooter(`Type: ${error.name}\u2000•\u2000 Evaluated in ${(elapsed / 1000).toFixed(2)}s.`)
                 ]
             });
         };
