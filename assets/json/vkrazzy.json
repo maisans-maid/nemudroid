@@ -71,6 +71,11 @@
     "Facebook": "ppanthebread"
   },
   "Teru Bozu": {
-    "Discord": "DF8qtNHrQc"
+    "Discord": "DF8qtNHrQc",
+    "YouTube": {
+      "type": "channel/",
+      "suffix": "UCz6vCgQp0_UNxAKaXddNYeQ"
+    },
+    "Facebook": "TeruTeruGame"
   }
 }
