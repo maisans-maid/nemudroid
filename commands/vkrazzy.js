@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, bold, underscore } = require('@discordjs/builders');
 const { MessageActionRow, MessageButton } = require('discord.js');
 const vkrazzyDatabase = require('../assets/json/vkrazzy.json');
+const _ = require('lodash');
 
 const command = new SlashCommandBuilder()
 .setName('vkrazzy')
@@ -55,58 +56,38 @@ module.exports = {
         };
 
         function addComponent(component){
-            if (components[0].components.length >= 5){
-                if (!components[1])
-                    components.push(new MessageActionRow());
-                components[1].addComponents(component);
-            } else {
-                components[0].addComponents(component);
-            };
+            let index = 0
+
+            while (
+                components[index] &&
+                components[index].components.length >= 5
+            )  index++;
+
+            if (index > 4) return;
+
+            if (!(components[index] instanceof MessageActionRow))
+                components[index] = new MessageActionRow();
+
+            return components[index].addComponents(component);
         };
 
         for (const [key, value] of Object.entries(data)){
             if (key === 'Discord')
                 continue;
 
-            if (Array.isArray(value)){
-                for (const _val of value){
-                    if (typeof _val === 'object'){
-                        addComponent(button(
-                            _val.type === 'c/'
-                                ? _val.suffix
-                                : key
-                            ,
-                            baseUrl[key] + _val.type + _val.suffix
-                        )
-                        .setEmoji(emoji[key]));
-                    } else {
-                        addComponent(button(
-                            _val,
-                            baseUrl[key] + _val.type + _val.suffix
-                        )
-                        .setEmoji(emoji[key]));
-                    };
-                };
-            }
-            else {
-                if (typeof value === 'object'){
-                    addComponent(button(
-                        value.type === 'c/'
-                            ? value.suffix
+            for (const _val of _.castArray(value)){
+                addComponent(button(
+                    typeof _val === 'object'
+                        ? _val.type === 'c/'
+                            ? _val.suffix
                             : key
-                        ,
-                        baseUrl[key] + value.type + value.suffix
-                    )
-                    .setEmoji(emoji[key]));
-                } else {
-                    addComponent(button(
-                        value.type === 'c/'
-                            ? value.suffix
-                            : key
-                        ,
-                        baseUrl[key] + value.type + value.suffix
-                    ).setEmoji(emoji[key]));
-                };
+                        : _val
+                    ,
+                    typeof _val === 'object'
+                        ? baseUrl[key] + _val.type + _val.suffix
+                        : baseUrl[key]
+                )
+                .setEmoji(emoji[key]));
             };
         };
 
