@@ -131,6 +131,13 @@ class EXPCalc {
 
 async function calculateXPFromMessage(client, message){
     let status = 'fail';
+
+    if (client.localCache.usersOnVC.has(message.author.id))
+        return {
+            status: message.author.id + ' is on VC',
+            errors: []
+        };
+
     let guildCache = client.localCache.talkingUsers
         .get(message.guild.id);
 
@@ -186,4 +193,45 @@ async function calculateXPFromMessage(client, message){
     return { status: message.author.id + ' is on cooldown', errors: []};
 };
 
-module.exports = { EXPCalc, calculateXPFromMessage };
+async function calculateXPFromVoice(client, voiceState){
+    let guildDB = client.localCache.guildSchema
+            .get(voiceState.guild.id) ||
+        await GuildDB.findById(voiceState.guild.id)
+            .catch(error => error) ||
+        await new GuildDB({ _id: voiceState.guild.id })
+            .save();
+
+    if (guildDB instanceof Error)
+        return { status, errors: [ Error ] };
+
+    let userDB = await UserDB
+            .findById(voiceState.member.id) ||
+        await new UserDB({ _id: voiceState.member.id })
+            .save();
+
+    if (userDB instanceof Error)
+        return { status, errors: [ Error ] };
+
+    const calculation = new EXPCalc(
+        userDB,
+        guildDB,
+        voiceState.member
+    );
+
+    const { success, errors } = await calculation
+      .add(Math.round(
+          _.random(
+              EXPDEFAULTS.min / 2,
+              EXPDEFAULTS.max / 2
+          )
+      ))
+      .save();
+
+      return { success, errors };
+};
+
+module.exports = {
+    EXPCalc,
+    calculateXPFromMessage,
+    calculateXPFromVoice
+  };
