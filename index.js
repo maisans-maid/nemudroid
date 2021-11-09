@@ -32,7 +32,8 @@ client.database = require('mongoose');
 client.localCache = {
     guildSchema: new Collection(),
     talkingUsers: new Collection(),
-    usersOnVC: new Collection()
+    usersOnVC: new Collection(),
+    games: new Collection()
 };
 
 client.database.connect(process.env.MONGO_URI, {
