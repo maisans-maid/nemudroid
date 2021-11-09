@@ -44,7 +44,6 @@ module.exports = async function(interaction){
         });
 
     if (profile.credits < 5){
-        collector.stop();
         return interaction.reply({
             ephemeral: true,
             content: ':x: You do not have enough credits to keep playing :('
