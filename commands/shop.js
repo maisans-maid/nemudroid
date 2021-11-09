@@ -65,8 +65,8 @@ module.exports = {
                     label: `${item.name} (Price: ${item.price})`,
                     description: item.description,
                     emoji: {
-                        id: '902592481286320148',
-                        name: 'Facebook'
+                        id: '907495598075306014',
+                        name: 'nemu_chibi'
                     }
                 }
             }));
