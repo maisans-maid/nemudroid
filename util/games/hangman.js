@@ -45,7 +45,7 @@ module.exports = async function(interaction){
     )
     .addField(
         'Tries Remaining',
-        '<:nemu_chibi:907495598075306014>'.repeat(tries_remaining) || '\u200b',
+        '<:nemu_chibi_prod:907495598075306014>'.repeat(tries_remaining) || '\u200b',
         true
     )
     .addField(
