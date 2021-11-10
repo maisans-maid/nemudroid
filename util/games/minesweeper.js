@@ -138,7 +138,7 @@ module.exports = async function(interaction){
     .on('end', async () => {
         embed.setColor('RED');
         const response = {
-            content: `⚔️ This challenge has ended! You earned a total of <a:coin:907310108550266970> **${counter}** credits!`,
+            content: `⚔️ This challenge has ended! You earned a total of <a:coin:907310108550266970> **${counter * 4}** credits!`,
             embeds: [ embed ],
             components: currentComponentState.map(row => new MessageActionRow().addComponents(
                 row.components.map(button => new MessageButton(button).setDisabled(true))
@@ -155,7 +155,7 @@ module.exports = async function(interaction){
                 content: `:x: Error ${profile.message}`
             });
 
-        profile.credits += counter;
+        profile.credits += counter * 4;
 
         return profile
         .save()
