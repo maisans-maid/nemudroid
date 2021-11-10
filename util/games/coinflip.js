@@ -19,7 +19,7 @@ module.exports = async function(interaction){
 
     const embed = new MessageEmbed()
         .setAuthor('COINFLIP - Let\'s play Coin Flip!')
-        .setDescription('Select from the buttons below your pick. If you guessed it right, you\'ll receive **5** credits. If not, you\'ll lose **5** credits.')
+        .setDescription('Select from the buttons below your pick. If you guessed it right, you\'ll receive **5** credits.')
         .setColor('GREEN');
 
     const message = await interaction.reply({
@@ -59,20 +59,10 @@ module.exports = async function(interaction){
             });
         };
 
-        if (profile.credits < 5){
-            collector.stop();
-            return i.reply({
-                ephemeral: true,
-                content: ':x: You do not have enough credits to keep playing :('
-            });
-        };
-
         const hasWon = won();
 
-        profile.credits -= 5;
-
         if (hasWon)
-            profile.credits += 10;
+            profile.credits += 5;
 
         const userpick = i.customId;
         const botpick = userpick === 'Head'

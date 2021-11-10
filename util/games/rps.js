@@ -32,7 +32,7 @@ module.exports = async function(interaction){
 
     const embed = new MessageEmbed()
         .setAuthor('RPS - Let\'s play Janken!')
-        .setDescription('Select from the buttons below your pick, and i will compete with you. Each action costs **5** credits. However, winning the game will give you **5 credits** instead (action cost excluded).')
+        .setDescription('Select from the buttons below your pick, and i will compete with you. Winning the game will give you **5 credits**.')
         .setColor('GREEN');
 
     const message = await interaction.reply({
@@ -72,20 +72,10 @@ module.exports = async function(interaction){
             });
         };
 
-        if (profile.credits < 5){
-            collector.stop();
-            return i.reply({
-                ephemeral: true,
-                content: ':x: You do not have enough credits to keep playing :('
-            });
-        };
-
         const hasWon = won();
 
-        profile.credits -= 5;
-
         if (hasWon)
-            profile.credits += 10;
+            profile.credits += 5;
 
         const userpick = i.customId
         const botpick = conditions[userpick][hasWon ? 'win' : 'lose'];
