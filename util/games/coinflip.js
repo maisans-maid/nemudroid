@@ -86,7 +86,7 @@ module.exports = async function(interaction){
             });
 
             return i.update({
-                content: `${hasWon ? ':tada:' : ':x:'} The result was **${hasWon ? userpick : botpick}**! (<a:coin:907310108550266970> ${hasWon ? '**+5** to' : '**-5** from'} credits)`,
+                content: `${hasWon ? ':tada:' : ':x:'} The result was **${hasWon ? userpick : botpick}**! ${hasWon ? '(<a:coin:907310108550266970> **+5** to credits.' : ''}`,
                 embeds: [ embed.setFooter('Click on the button below to play again') ],
                 components: [ row ]
             });

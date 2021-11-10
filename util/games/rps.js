@@ -97,7 +97,7 @@ module.exports = async function(interaction){
             });
 
             return i.update({
-                content: `> ${i.user.tag} ${userpick} vs ${botpick} ${interaction.client.user.tag}\n${hasWon ? ':tada:' : ':x:'} **${i.user.tag}** ${hasWon ? 'Won' : 'Lost'} the previous game (<a:coin:907310108550266970> ${hasWon ? '**+5** to' : '**-5** from'} credits)`,
+                content: `> ${i.user.tag} ${userpick} vs ${botpick} ${interaction.client.user.tag}\n${hasWon ? ':tada:' : ':x:'} **${i.user.tag}** ${hasWon ? 'Won' : 'Lost'} the previous game. ${hasWon ? '(<a:coin:907310108550266970> **+5** to credits)' : ''}`,
                 embeds: [ embed.setFooter('Click on the button below to play again') ],
                 components: [ row ]
             });
