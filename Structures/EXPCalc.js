@@ -194,6 +194,14 @@ async function calculateXPFromMessage(client, message){
 };
 
 async function calculateXPFromVoice(client, voiceState){
+    let status = 'fail';
+
+    if (voiceState.member.user.bot)
+        return { status, errors: new Error('[CalculateXPFromVoice] the user is a bot.')};
+
+    if (voiceState.mute || voiceState.deaf)
+        return { status, errors: new Error('[CalculateXPFromVoice] the user is muted or deafened')};
+
     let guildDB = client.localCache.guildSchema
             .get(voiceState.guild.id) ||
         await GuildDB.findById(voiceState.guild.id)
