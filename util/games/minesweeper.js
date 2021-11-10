@@ -99,7 +99,7 @@ module.exports = async function(interaction){
                     )
                     .setDisabled(isBtn()
                         ? true
-                        : false
+                        : button.disabled
                     );
                 })
             )
