@@ -157,7 +157,7 @@ async function calculateXPFromMessage(client, message){
                 .save();
 
         if (guildDB instanceof Error)
-            return { status, errors: [ Error ] };
+            return { status, errors: [ guildDB ] };
 
         let userDB = await UserDB
                 .findById(message.author.id) ||
@@ -165,7 +165,7 @@ async function calculateXPFromMessage(client, message){
                 .save();
 
         if (userDB instanceof Error)
-            return { status, errors: [ Error ] };
+            return { status, errors: [ userDB ] };
 
         const calculation = new EXPCalc(
             userDB,
@@ -210,7 +210,7 @@ async function calculateXPFromVoice(client, voiceState){
             .save();
 
     if (guildDB instanceof Error)
-        return { status, errors: [ Error ] };
+        return { status, errors: [ guildDB ] };
 
     let userDB = await UserDB
             .findById(voiceState.member.id) ||
@@ -218,7 +218,7 @@ async function calculateXPFromVoice(client, voiceState){
             .save();
 
     if (userDB instanceof Error)
-        return { status, errors: [ Error ] };
+        return { status, errors: [ userDB ] };
 
     const calculation = new EXPCalc(
         userDB,
