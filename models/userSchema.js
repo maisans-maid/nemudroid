@@ -58,7 +58,11 @@ module.exports = model('userProfile', Schema({
             }
         },
         hangman: {
-            games_played: {
+            games_won: {
+                type: Number,
+                default: 0
+            },
+            games_lost: {
                 type: Number,
                 default: 0
             }
