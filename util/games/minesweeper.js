@@ -18,7 +18,7 @@ module.exports = async function(interaction){
 
     const embed = new MessageEmbed()
         .setAuthor('Minesweeper - Let\'s play Minesweeper!')
-        .setDescription('Click on the buttons below while evading the bombs. Accumulated points before the bomb is clicked is the credits you will earn. There are 5 bombs in this minefield. **5 credits is required to play the game**. You have a minute per turn before the game force-ends.')
+        .setDescription('Click on the buttons below while evading the bombs. Accumulated points before the bomb is clicked is the credits you will earn. There are 5 bombs in this minefield. You have a minute per turn before the game force-ends.')
         .setColor('GREEN');
 
     const components = _.chunk(elements, 5).map((chunk, parentIndex) => new MessageActionRow()
@@ -41,23 +41,6 @@ module.exports = async function(interaction){
         return interaction.reply({
             ephemeral: true,
             content: `:x: Error ${profile.message}`
-        });
-
-    if (profile.credits < 5){
-        return interaction.reply({
-            ephemeral: true,
-            content: ':x: You do not have enough credits to keep playing :('
-        });
-    };
-
-    const saveState = await profile
-        .save()
-        .catch(e => e);
-
-    if (saveState instanceof Error)
-        return interaction.reply({
-            ephemeral: true,
-            content: `:x: Error ${saveState.message}`
         });
 
     const message = await interaction.reply({
