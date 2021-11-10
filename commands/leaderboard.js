@@ -38,7 +38,7 @@ module.exports = {
             });
 
         const timeout = setTimeout(() =>
-            interaction.replied
+            !interaction.replied
                 ? interaction.deferReply()
                 : null,
             2500
