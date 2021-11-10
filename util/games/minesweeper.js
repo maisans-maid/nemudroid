@@ -113,6 +113,10 @@ module.exports = async function(interaction){
                     .setEmoji(isBtn()
                         ? null
                         : button.emoji
+                    )
+                    .setDisabled(isBtn()
+                        ? true
+                        : false
                     );
                 })
             )
