@@ -62,7 +62,7 @@ module.exports = async function(interaction){
     .on('collect', message => {
         if (message.content !== codeText){
             incorrectCode = true;
-            collector.stop();
+            return collector.stop();
         };
 
         credits += 10;
