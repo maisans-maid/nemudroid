@@ -76,7 +76,7 @@ module.exports = {
         content: `:x: Error: ${e.message}`
       }));
 
-    } else if (['find', 'beg', 'steal'].includes(method)){
+    } else if (['beg', 'steal'].includes(method)){
 
       const gameCache = client.localCache.games.get(method) ||
       client.localCache.games.set(method, new Collection())
