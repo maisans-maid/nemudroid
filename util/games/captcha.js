@@ -95,6 +95,10 @@ module.exports = async function(interaction){
             });
 
         profile.credits += credits;
+        profile.gamestats.captcha.games_played++
+
+        if (attempts > profile.gamestats.captcha.high_score)
+            profile.gamestats.captcha.high_score = attempts;
 
         let content;
         if (incorrectCode){

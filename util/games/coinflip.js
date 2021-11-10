@@ -61,8 +61,13 @@ module.exports = async function(interaction){
 
         const hasWon = won();
 
-        if (hasWon)
-            profile.credits += 5;
+        if (hasWon){
+          profile.credits += 5;
+          profile.gamestats.coin_flip.games_won++;
+        } else {
+          profile.gamestats.coin_flip.games_lost++;
+        };
+
 
         const userpick = i.customId;
         const botpick = userpick === 'Head'

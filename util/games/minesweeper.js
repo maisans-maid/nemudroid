@@ -156,6 +156,10 @@ module.exports = async function(interaction){
             });
 
         profile.credits += counter * 4;
+        profile.gamestats.minesweeper.games_played++;
+
+        if (counter > profile.gamestats.minesweeper.high_score)
+            profile.gamestats.minesweeper.high_score = counter;
 
         return profile
         .save()

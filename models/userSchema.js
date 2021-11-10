@@ -35,6 +35,54 @@ module.exports = model('userProfile', Schema({
             type: Date,
             default: Date.now() - 864e5
         }
+    },
+    gamestats: {
+        captcha: {
+            games_played: {
+                type: Number,
+                default: 0
+            },
+            high_score: {
+                type: Number,
+                default: 0
+            }
+        },
+        coin_flip: {
+            games_won: {
+                type: Number,
+                default: 0
+            },
+            games_lost: {
+                type: Number,
+                default: 0
+            }
+        },
+        hangman: {
+            games_played: {
+                type: Number,
+                default: 0
+            }
+        },
+        minesweeper: {
+            games_played: {
+                type: Number,
+                default: 0
+            },
+            high_score: {
+                type: Number,
+                default: 0
+            }
+        },
+        rps: {
+            games_won: {
+                type: Number,
+                default: 0
+            },
+            games_lost: {
+                type: Number,
+                default: 0
+            }
+        }
     }
 }, {
   versionKey: false

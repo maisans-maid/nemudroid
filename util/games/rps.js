@@ -74,8 +74,12 @@ module.exports = async function(interaction){
 
         const hasWon = won();
 
-        if (hasWon)
+        if (hasWon){
             profile.credits += 5;
+            profile.gamestats.rps.games_won++;
+        } else {
+            profile.gamestats.rps.games_lost++;
+        };
 
         const userpick = i.customId
         const botpick = conditions[userpick][hasWon ? 'win' : 'lose'];
