@@ -34,7 +34,7 @@ module.exports = {
         if (title.length > 25)
             title = title.substr(0, 25);
 
-        if (description.length > 25)
+        if (descr.length > 25)
             descr = descr.substr(0, 25);
 
         descr = descr.replace(/\s/g, '  ');
