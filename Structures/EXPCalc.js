@@ -215,6 +215,9 @@ async function calculateXPFromVoice(client, voiceState){
     if (guildDB instanceof Error)
         return { status, errors: [ guildDB ] };
 
+    if (!(guildDB instanceof GuildDB))
+        guildDB = new GuildDB(guildDB);
+
     let userDB = await UserDB
             .findById(voiceState.member.id) ||
         await new UserDB({ _id: voiceState.member.id })
