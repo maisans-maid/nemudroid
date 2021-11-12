@@ -45,7 +45,7 @@ module.exports = {
         const __minecraft = '../assets/images/minecraft/';
 
         const bglength = getBGLength(descr, title);
-        const size     = await loadImage(join(__dirname, __minecraft, 'minecraft_achievement_side.png'));
+        const side     = await loadImage(join(__dirname, __minecraft, 'minecraft_achievement_side.png'));
         const middle   = await loadImage(join(__dirname, __minecraft, 'minecraft_achievement_middle.png'));
         const nemu     = await loadImage(join(__dirname, __minecraft, 'nemu_minecraft_icon.png'));
 
