@@ -1,5 +1,6 @@
 'use strict';
 const { calculateXPFromVoice } = require('../Structures/EXPCalc.js');
+const { birthdayGreeter } = require('../util/birthdayGreeter.js');
 
 module.exports = (client) => {
 
@@ -19,4 +20,11 @@ module.exports = (client) => {
             );
         })
     );
+
+    // Greet birthday celebrants!!!
+    birthdayGreeter(client);
+    // Run once a day
+    setInterval(function(){
+        birthdayGreeter(client);
+    }, 9504e5);
 };

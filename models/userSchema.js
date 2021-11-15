@@ -2,6 +2,34 @@ const { model, Schema } = require('mongoose');
 
 module.exports = model('userProfile', Schema({
     _id: String,
+    birthday: {
+        isRestricted: {
+            type: Boolean,
+            default: false
+        },
+        day: {
+            type: Number,
+            min: [
+                1,
+                'Invalid day'
+            ],
+            max: [
+                31,
+                'Invalid day'
+            ]
+        },
+        month: {
+            type: 'Number',
+            min: [
+                1,
+                'Invalid Month'
+            ],
+            max: [
+                12,
+                'Invalid Month'
+            ]
+        }
+    },
     wallpaper: {
         type: String,
         default: null
