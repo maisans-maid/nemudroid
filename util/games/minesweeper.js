@@ -155,7 +155,7 @@ module.exports = async function(interaction){
                 content: `:x: Error ${profile.message}`
             });
 
-        profile.credits += counter * 4;
+        profile.credits += Math.ceil(counter * 2.25);
         profile.gamestats.minesweeper.games_played++;
 
         if (counter > profile.gamestats.minesweeper.high_score)
