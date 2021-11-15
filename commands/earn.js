@@ -19,8 +19,7 @@ const command = new SlashCommandBuilder()
     [ 'Play Minesweeper', 'minesweeper'],
     [ 'Guess captcha', 'captcha' ],
     [ 'Find', 'find' ],
-    [ 'Beg', 'beg' ],
-    [ 'Steal', 'steal' ]
+    [ 'Beg', 'beg' ]
   ])
   .setRequired(true)
 )
@@ -33,29 +32,29 @@ module.exports = {
     const method = interaction.options.getString('method');
 
     if (method === 'daily'){
-      const profile = await model
-      .findById(interaction.user.id)
-      .catch(e => e) ||
-      new model({ _id : interaction.user.id });
+        const profile = await model
+            .findById(interaction.user.id)
+            .catch(e => e) ||
+            new model({ _id : interaction.user.id });
 
       if (profile instanceof Error)
-      return interaction.reply({
-        ephemeral: true,
-        content: `:x: Error ${profile.message}`
-      });
+          return interaction.reply({
+              ephemeral: true,
+              content: `:x: Error ${profile.message}`
+          });
 
       if (profile.daily.timestamp - Date.now() > 0)
-      return interaction.reply({
-        content: ':x: You already got your daily reward. You can get your next daily reward ' + moment(profile.daily.timestamp).fromNow() + '.'
-      });
+          return interaction.reply({
+              content: ':x: You already got your daily reward. You can get your next daily reward ' + moment(profile.daily.timestamp).fromNow() + '.'
+          });
 
       if (profile.daily.timestamp + 864e5 < Date.now())
-      profile.daily.currentstreak = 0;
+          profile.daily.currentstreak = 0;
 
       profile.daily.currentstreak++;
 
       if (profile.daily.highteststreak < profile.daily.currentstreak)
-      profile.daily.highteststreak = profile.daily.currentstreak;
+          profile.daily.highteststreak = profile.daily.currentstreak;
 
       profile.daily.timestamp = Date.now() + 72e6;
 
@@ -69,14 +68,14 @@ module.exports = {
       return profile
       .save()
       .then(() => interaction.reply({
-        content: `:tada: **${interaction.user.tag}**, You got <a:coin:907310108550266970>**${totalAmount}** credits for your daily reward. (Streak x${profile.daily.currentstreak}). Maintain your streak to receive even higher rewards!`
+          content: `:tada: **${interaction.user.tag}**, You got <a:coin:907310108550266970>**${totalAmount}** credits for your daily reward. (Streak x${profile.daily.currentstreak}). Maintain your streak to receive even higher rewards!`
       }))
       .catch(e => interaction.reply({
-        ephemeral: true,
-        content: `:x: Error: ${e.message}`
+          ephemeral: true,
+          content: `:x: Error: ${e.message}`
       }));
 
-    } else if (['beg', 'steal'].includes(method)){
+    } else if (method === 'beg'){
 
       const gameCache = client.localCache.games.get(method) ||
       client.localCache.games.set(method, new Collection())
