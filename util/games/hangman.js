@@ -20,7 +20,7 @@ module.exports = async function(interaction){
 
 
     //--------------game start------------------//
-    const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     const topic = topics[_.random(0, topics.length - 1)].toUpperCase();
     const correctLetters = [...new Set(topic)].filter(c => alphanumeric.includes(c));
