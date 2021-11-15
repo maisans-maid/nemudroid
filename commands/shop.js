@@ -21,44 +21,29 @@ module.exports = {
     builder: command,
     execute: async (client, interaction) => {
 
-        async function getProfile(id){
-            return await model
-                .findById(interaction.user.id)
-                .catch(e => e);
-        };
+        let userProfile = await model
+            .findById(interaction.user.id)
+            .catch(e => e);
 
-        async function sendError(document){
+        if (userProfile instanceof Error)
             return interaction.reply({
                 ephemeral: true,
-                content: `❌ Error: ${document.message}`
+                content: '❌ Error: ' + userProfile.message
             });
-        };
 
-        function getLevel(userProfile){
-            return userProfile
-                ? userProfile.xp
-                    .find(x => x.id === interaction.guildId)?.level || 0
-                : 0;
-        };
-
-        const authorProfile = await getProfile(interaction.user.id);
-
-        if (authorProfile instanceof Error)
-            return sendError(authorProfile);
-
-        const level = getLevel(authorProfile);
-
-        const allowed = level >= 15;
-
-        let placeholder = allowed
-            ? 'Select item to purchase'
-            : 'You need to reach level 15 to use the shop!'
+        const level = userProfile?.xp
+            .find(x => x.id === interaction.guildId)?.level ||
+            0;
 
         const items = shop[interaction.options.getString('type')];
         const selectMenu = new MessageSelectMenu()
+            .setDisabled(level < 15)
             .setCustomId('shop')
-            .setPlaceholder(placeholder)
-            .setDisabled(!allowed)
+            .setPlaceholder(
+                level >= 15
+                    ? 'Select an item to purchase'
+                    : '⚠ You need to reach level 15 first before you can use the shop.'
+            )
             .addOptions(items.map(function(item){
                 return {
                     value: item.id.toString(),
@@ -84,7 +69,7 @@ module.exports = {
             fetchReply: allowed
         });
 
-        if (!allowed)
+        if (level < 15)
            return;
 
         const collector = await message.createMessageComponentCollector({
@@ -94,20 +79,20 @@ module.exports = {
 
         collector
             .on('collect', async function(i){
-                const userProfile = i.user.id === interaction.user.id
-                    ? authorProfile
-                    : await getProfile(i.user.id);
+                if (i.user.id !== interaction.user.id)
+                    return i.reply({
+                        ephemeral: true,
+                        content: '❌ You are not allowed to control this interaction!'
+                    });
+
+                userProfile = await model
+                    .findById(interaction.user.id)
+                    .catch(e => e);
 
                 if (userProfile instanceof Error)
                     return i.reply({
                         ephemeral: true,
-                        content: `❌ Error: ${userProfile.error}`
-                    });
-
-                if (getLevel(userProfile) < 15)
-                    return i.reply({
-                        ephemeral: true,
-                        content: 'You need to reach level 15 to use the shop!'
+                        content: '❌ Error: ' + userProfile.message
                     });
 
                 const item = items.find(x => x.id == i.values[0]);
