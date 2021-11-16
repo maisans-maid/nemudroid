@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { User } = require('discord.js');
 const model = require('../models/userSchema.js');
+const guildModel = require('../models/guildSchema.js');
+
 const months = [
     "January",
     "February",
@@ -51,6 +53,14 @@ const command = new SlashCommandBuilder()
         .setRequired(true)
     )
 )
+.addSubcommand(subcommand => subcommand
+    .setName('set-channel')
+    .setDescription('Set the channel for logging birthday events')
+    .addChannelOption(option => option
+        .setName('channel')
+        .setDescription('The channel to use for logging birthday events. Leave blank to disable.')
+    )
+);
 
 module.exports = {
     builder: command,
@@ -84,6 +94,58 @@ module.exports = {
             .then(() => interaction.reply({
                 ephemeral: true,
                 content
+            }))
+            .catch(e => interaction.reply({
+                ephemeral: true,
+                content: `<:nemu_confused:883953720373682208> Error: ${e.message}`
+            }));
+        };
+
+        if (interaction.options.getSubcommand() === 'set-channel'){
+            if (!interaction.memberPermissions.has('MANAGE_GUILD'))
+                return interaction.reply({
+                    ephemeral: true,
+                    content: '<:nemu_confused:883953720373682208> You have no permission to use this command!'
+                });
+
+            let channel = interaction.options.getChannel('channel');
+
+            if (channel){
+                if (!channel.isText())
+                    return interaction.reply({
+                        ephemeral: true,
+                        content: '<:nemu_confused:883953720373682208> The selected channel is not a Text-Channel!'
+                    });
+
+                if (!channel.permissionsFor(client.user).has(['SEND_MESSAGES', 'ATTACH_FILES']))
+                    return interaction.reply({
+                        ephemeral: true,
+                        content: '<:nemu_confused:883953720373682208> The selected channel cannot be used because I have no Send Messages or Attach Files permissions!'
+                    });
+
+                channel = channel.id;
+            };
+
+            const profile = await guildModel.findById(interaction.guildId) ||
+                new guildModel({ _id: interaction.guildId });
+
+            if (profile instanceof Error)
+                return interaction.reply({
+                    ephemeral: true,
+                    content: `<:nemu_confused:883953720373682208> Error: ${profile.message}`
+                });
+
+            profile.birthday.channel = channel || null;
+
+            return profile
+            .save()
+            .then(() => interaction.reply({
+                ephemeral: true,
+                content: `<:nemu_chibi_prod:907495598075306014> Successfully ${
+                    profile.birthday.channel
+                        ? `set the birthday log channel to <#${profile.birthday.channel}>!`
+                        : 'removed the birthday log channel'
+                }`
             }))
             .catch(e => interaction.reply({
                 ephemeral: true,
