@@ -73,6 +73,7 @@ class EXPCalc {
 
     _incrementLevel(){
         this.data.level ++;
+        this.userDB.credits += 75 + (25 * this.data.level);
 
         const { rewards } = this.guildDB;
 
@@ -170,6 +171,8 @@ async function calculateXPFromMessage(client, message){
         if (userDB instanceof Error)
             return { status, errors: [ userDB ] };
 
+        const previousLevel = userDB.xp.find(x => x.id === message.guild.id)?.level || 0;
+
         const calculation = new EXPCalc(
             userDB,
             guildDB,
@@ -189,6 +192,13 @@ async function calculateXPFromMessage(client, message){
               client.localCache.talkingUsers
                   .get(message.guild.id)
                   .set(message.author.id, Date.now());
+
+          if (previousLevel < userDB.xp.find(x => x.id === message.guild.id).level)
+              if (userDB.notifications.levelup)
+                  await message.channel.send({
+                      ephemeral: true,
+                      content: `🎉🎉 ${message.author}, Congratulations for leveling up! You are now level **${userDB.xp.find(x => x.id === message.guild.id).level}**. You received **${75 + (25 * (userDB.xp.find(x => x.id === message.guild.id).level - previousLevel))}** credits as a reward!`
+                  });
 
           return { success, errors };
     };

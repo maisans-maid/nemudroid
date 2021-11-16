@@ -30,6 +30,12 @@ module.exports = model('userProfile', Schema({
             ]
         }
     },
+    notifications: {
+        levelup: {
+            type: Boolean,
+            default: false
+        }
+    },
     wallpaper: {
         type: String,
         default: null
