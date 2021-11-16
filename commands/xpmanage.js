@@ -133,7 +133,7 @@ module.exports = {
                 });
 
             const { rewards } = _document;
-            console.log(subdocument);
+            
             const roles = [...Array(subdocument.level + 1).keys()]
                 .slice(1)
                 .map(level => interaction.guild.roles.cache.get(
