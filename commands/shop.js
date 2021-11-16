@@ -21,26 +21,29 @@ module.exports = {
     builder: command,
     execute: async (client, interaction) => {
 
-        let userProfile = await model
-            .findById(interaction.user.id)
-            .catch(e => e);
+        let baseProfiles = await model.find({
+            _id: interaction.user.id,
+            $and: [
+                { 'xp.id': { $eq: interaction.guildId }},
+                { 'xp.level': { $gte: 15 }}
+            ]
+        }, {
+            _id: 1,
+            'xp.$': 1
+        });
 
-        if (userProfile instanceof Error)
+        if (baseProfiles instanceof Error)
             return interaction.reply({
                 ephemeral: true,
-                content: '❌ Error: ' + userProfile.message
+                content: `<:nemu_confused:883953720373682208> Error: ${baseProfiles.message}`
             });
-
-        const level = userProfile?.xp
-            .find(x => x.id === interaction.guildId)?.level ||
-            0;
 
         const items = shop[interaction.options.getString('type')];
         const selectMenu = new MessageSelectMenu()
-            .setDisabled(level < 15)
+            .setDisabled(baseProfiles[0].xp[0].level < 15)
             .setCustomId('shop')
             .setPlaceholder(
-                level >= 15
+                baseProfiles[0].xp[0].level >= 15
                     ? 'Select an item to purchase'
                     : '⚠ You need to reach level 15 first before you can use the shop.'
             )
@@ -66,10 +69,10 @@ module.exports = {
         const message = await interaction.reply({
             content,
             components: [row],
-            fetchReply: allowed
+            fetchReply: baseProfiles[0].xp[0].level >= 15
         });
 
-        if (level < 15)
+        if (baseProfiles[0].xp[0].level < 15)
            return;
 
         const collector = await message.createMessageComponentCollector({
@@ -85,7 +88,7 @@ module.exports = {
                         content: '❌ You are not allowed to control this interaction!'
                     });
 
-                userProfile = await model
+                const userProfile = await model
                     .findById(interaction.user.id)
                     .catch(e => e);
 
