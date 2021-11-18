@@ -45,7 +45,7 @@ module.exports = async function(interaction){
     )
     .addField(
         'Tries Remaining',
-        '<:nemu_chibi_prod:907495598075306014>'.repeat(tries_remaining) || '\u200b',
+        '<:nemu_chibi:900751718399213628>'.repeat(tries_remaining) || '\u200b',
         true
     )
     .addField(
@@ -119,7 +119,7 @@ module.exports = async function(interaction){
             },
             {
                 name: embed.fields[1].name,
-                value: '<:nemu_chibi:907495598075306014>'.repeat(tries_remaining) || '\u200b',
+                value: '<:nemu_chibi:900751718399213628>'.repeat(tries_remaining) || '\u200b',
                 inline: embed.fields[1].inline
             },
             {
