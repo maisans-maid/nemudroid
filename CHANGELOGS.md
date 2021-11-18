@@ -1,3 +1,8 @@
+## Nemudroid v0.2.2 Changelogs
+> 18 Nov 2021 1:00AM +8:00 GMT
+
+- Change source emoji for Nemudroid's Minesweeper game
+
 ## Nemudroid v0.3.0 Changelogs
 > 17 Nov 2021 6:00 PM +8:00 GMT
 
