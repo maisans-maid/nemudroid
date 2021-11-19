@@ -32,7 +32,7 @@ module.exports = async function(interaction){
         ...randomLetters
     ]);
 
-    let currentState = topic.replace(/\w/g,'_');
+    let currentState = topic.replace(/[a-z]/ig, '_');
     let tries_remaining = 6;
     let victory = false;
 
