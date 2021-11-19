@@ -1,4 +1,10 @@
-## Nemudroid v0.2.2 Changelogs
+## Nemudroid v0.3.2 Changelogs
+> 19 Nov 2021 11:00PM +8:00 GMT
+
+- Updated Teru Bozu Entry on vkrazzy command
+- Fixed hangman where numbers does not appear on answer field
+
+## Nemudroid v0.3.1 Changelogs
 > 18 Nov 2021 1:00AM +8:00 GMT
 
 - Change source emoji for Nemudroid's Minesweeper game
