@@ -3,7 +3,7 @@ require('./fonts');
 require('moment-duration-format');
 
 // Heroku for backup accounts, if the date is 1-25, turn off this instance.
-if ('BACKUPMODE' in process.env && new Date().getDate() < 26){
+if ('BACKUPMODE' in process.env && new Date().getDate() < 24){
     process.exit(1);
 };
 
