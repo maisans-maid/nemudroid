@@ -48,7 +48,7 @@ module.exports = {
               content: ':x: You already got your daily reward. You can get your next daily reward ' + moment(profile.daily.timestamp).fromNow() + '.'
           });
 
-      if (profile.daily.timestamp + 864e5 < Date.now())
+      if (profile.daily.timestamp.getTime() + 864e5 < Date.now())
           profile.daily.currentstreak = 0;
 
       profile.daily.currentstreak++;
