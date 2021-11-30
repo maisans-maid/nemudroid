@@ -1,6 +1,6 @@
 {
   "name": "nemdroid",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Nemu's personal Android",
   "main": "index.js",
   "scripts": {
