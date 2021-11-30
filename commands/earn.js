@@ -59,7 +59,7 @@ module.exports = {
       profile.daily.timestamp = Date.now() + 72e6;
 
       const baseAmount = 75;
-      const additionalAmount = 5 * (profile.daily.currentstreak - 1);
+      const additionalAmount = 20 * (profile.daily.currentstreak - 1);
 
       profile.credits += baseAmount + additionalAmount;
 
