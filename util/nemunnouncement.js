@@ -54,7 +54,7 @@ exports.nemunnouncement = async function (message) {
         .send(messageOptions)
         .catch(err => logChannel.send({
             embeds: [
-                embed
+                new MessageEmbed()
                 .setColor('RED')
                 .setAuthor('⚠️ Announcement Failure')
                 .setDescription(`Unable to send nemunnouncement to **${guild.name}**!`)
