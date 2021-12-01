@@ -41,8 +41,7 @@ exports.nemunnouncement = async function (message) {
 
         if (role){
             messageOptions.allowedMentions = {
-                parse: [ 'roles' ],
-                roles: [ role.id ]
+                parse: [ 'roles' ]
             };
         };
 
