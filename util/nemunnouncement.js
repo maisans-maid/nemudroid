@@ -9,8 +9,6 @@ exports.nemunnouncement = async function (message) {
     if (message.channel.id !== '896685029797822474')
         return;
 
-    console.log(message)
-
     // Get the log-channels for logging error messages, so that they can be
     // easily traced
     const logChannel = message.client.guilds.cache.get('874162813977919488')
@@ -39,6 +37,13 @@ exports.nemunnouncement = async function (message) {
         // Set message content.
         const messageOptions = {
             content: `${role || '<>'} | ${message.content.replace(/\@everyone/g,'everyone')}`
+        };
+
+        if (role){
+            messageOptions.allowedMentions = {
+                parse: [ 'roles' ],
+                roles: [ role.id ]
+            };
         };
 
         // Send the attachments as well if there is any
