@@ -1,8 +1,12 @@
 'use strict';
 const { calculateXPFromVoice } = require('../Structures/EXPCalc.js');
 const { birthdayGreeter } = require('../util/birthdayGreeter.js');
+const { registerCommands } = require('../util/registerCommands.js');
 
 module.exports = (client) => {
+
+    // RegisterCommands
+    registerCommands(client);
 
     // Get members on voiceChannels on startup
     client.guilds.cache.each(guild => guild

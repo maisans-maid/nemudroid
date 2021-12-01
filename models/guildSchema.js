@@ -6,6 +6,16 @@ module.exports = model('server_profiles', Schema({
         type: String,
         default: null
     },
+    nemunnouncement: {
+        channel: {
+            type: String,
+            default: null
+        },
+        role: {
+            type: String,
+            default: null
+        }
+    },
     rewards: {
         type: Array,
         default: []

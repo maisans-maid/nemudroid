@@ -2,6 +2,11 @@ const { VoiceChannel, Collection } = require('discord.js');
 const { calculateXPFromVoice } = require('../Structures/EXPCalc.js');
 
 module.exports = (client, oldState, newState) => {
+
+    // If guild is not nemu's do not execute.
+    if (newState.member.guild.id !== '874162813977919488')
+        return;
+
     const date = Date.now()
 
     if (

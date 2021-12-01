@@ -1,6 +1,25 @@
+'use strict';
+
+const globalCommands = [
+    'vkrazzy',
+    'ping',
+    'eval',
+    'nemunnouncement',
+    'reload'
+];
+
 module.exports = (client, interaction) => {
 
     if (interaction.isCommand()){
+
+        if (
+            (interaction.guildId !== '874162813977919488') &&
+            !globalCommands.includes(interaction.commandName)
+        ) return interaction.reply({
+            ephemeral: true,
+            content: '❌ This command is exclusive to Nemu Kurosagi\'s server only.'
+        });
+
         const exefunc = client.commands
             .get(interaction.commandName);
 

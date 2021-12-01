@@ -3,6 +3,11 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = async (client, member) => {
+
+    // If guild is not nemu's do not execute.
+    if (member.guild.id !== '874162813977919488')
+        return;
+
     const channelId = '907014736544145420';
     const channel = member.guild.channels.cache.get(channelId);
 
