@@ -4,8 +4,8 @@ const GuildDB = require('../models/guildSchema.js');
 const _ = require('lodash');
 
 const EXPDEFAULTS = {
-  min: 20,
-  max: 30,
+  min: 10,
+  max: 20,
   multiplier: 1
   // multiplier may change depending on events
   // For example, Halloween events may have double xp rewards
