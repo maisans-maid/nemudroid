@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { TextChannel, Permissions: { FLAGS }} = require('discord.js');
+const { BaseGuildTextChannel, Permissions: { FLAGS }} = require('discord.js');
 const model = require('../models/guildSchema.js');
 
 const command = new SlashCommandBuilder()
@@ -29,7 +29,7 @@ module.exports = {
         const role = interaction.options.getRole('ping-role');
         const errors = [];
 
-        if (!(channel instanceof TextChannel))
+        if (!(channel instanceof BaseGuildTextChannel))
             errors.push('The selected channel is not a Text-Channel!')
 
         if (!channel.permissionsFor(client.user).has([ 'VIEW_CHANNEL', 'SEND_MESSAGES', 'ATTACH_FILES', 'EMBED_LINKS']))
