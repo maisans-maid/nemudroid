@@ -48,7 +48,7 @@ module.exports = {
         let raw = evaled;
 
         if (evaled instanceof Promise) {
-            await interaction.deferReply();
+            await interaction.deferReply({ ephemeral: !interaction.options.getBoolean('show') });
             promise = await evaled
             .then(res =>
                 {
@@ -98,7 +98,7 @@ module.exports = {
             Date.now() - interaction.createdTimestamp
         );
 
-        const row     = new MessageActionRow();
+        const row = new MessageActionRow();
 
         embed
             .setColor(color)
