@@ -3,19 +3,19 @@ const { model, Schema } = require('mongoose');
 const DEFAULTS = [
     {
         author: { name: '1. THE DISCORD TOS SUMMARY' },
-        description: 'As per the Discord ToS Summary, they expect you to:\n(i) be of 13 years of age or more (and the minimum digital consent in your country). Check your country\'s age of consent [here](https://worldpopulationreview.com/country-rankings/age-of-consent-by-country).\n(ii) not use the service (discord) to abuse, oppress, defraud, or discriminate other users.\n(iii) hold responsibility on your account, account credentials, and all of your account activities.\n(iv) agree in receiving communications from discord and any other users.\n(v) adhere to [Intellectual Property Rights](https://www.wipo.int/about-ip/en/).\n(vi) be liable in your content and accept repercussions brought by violating Discord ToS through your content.\n(vii) adhere to their rules of conduct.\n\nYou can read the whole Discord Terms of Service [here](https://discord.com/terms).'
+        description: 'As per the Discord ToS Summary, they expect you to:\n(i) be of 13 years of age or more (and the [minimum digital consent in your country](https://worldpopulationreview.com/country-rankings/age-of-consent-by-country)).\n(ii) not use the [Discord](https://discord.com) to abuse, oppress, defraud, or discriminate other users.\n(iii) hold responsibilities on your account and all of your account activities.\n(iv) agree in receiving communications from discord and any other users.\n(v) adhere to [Intellectual Property Rights](https://www.wipo.int/about-ip/en/).\n(vi) be liable in your content.\n(vii) adhere to their rules of conduct.\n\nYou can read more of Discord\'s Terms of Service [here](https://discord.com/terms).'
     },
     {
         author: { name: '2. DISCLOSURE OF PRIVATE INFORMATION' },
-        description: 'Private information from any of the members from this server shall not be disclosed. Private information shall refer to any identifying documents containing the person\'s Real Name, Contact Details, Real-Life Image, and many others, and other classified documents such as Government and Medical Forms, among many others. Any form of Doxing (search for and publish private or identifying information about <a particular individual> on the internet, typically with malicious intent) is not tolerable. You hereby accept that violation of this rule will automatically warrant a permanent ban. Moderators may also inform affiliated servers about your behavior and may ban you in those servers as well.'
+        description: 'Private information from any of the members from this server shall not be disclosed. Any form of **Doxxing** (search for and publish private or identifying information about a particular individual on the internet) will not be tolerated. Violation of this rule will automatically warrant a permanent ban. Moderators may also inform affiliated servers about your behavior and may ban you in those servers as well.'
     },
     {
         author: { name: '3. USER DISPUTES' },
-        description: 'Discord Terms of Service states that the company disclaims any liability to any user disputes in their service. Any disputes among members should not be expressed nor resolved in this server. Do not bring dramas from other servers here. If the dispute is between a moderator and a member, the involved parties should resolve their dispute on their own. However, disputes brought about by any form of disrespect that includes but is not limited to harassment, trolling, witch hunting, sexism, racism, or hate speech that occurred in this server will not be tolerated and will be dealt with accordingly.'
+        description: 'Discord Terms of Service states that the they disclaim any liability to any user disputes in their service. Any disputes among members should not be expressed nor resolved in this server. However, disputes brought about by any form of disrespect that includes but is not limited to harassment, trolling, witch hunting, sexism, racism, or hate speech that occurred in this server will not be tolerated and will be dealt with accordingly.'
     },
     {
         author: { name: '4. LANGUAGE AND MESSAGING ETTIQUETTE' },
-        description: 'You may speak English and Tagalog on the general messaging channel. Other channels specific to a dialect/language may also be created (If you speak other language, hit the admins with a DM to create a channel). Always read channel descriptions (if there is any) to be aware on any channel-specific rules (such as image-only channels, etc.). General messaging rule is no spamming is allowed, unless the channel-description specified otherwise. Use of inappropriate language (excessive swears, racial slurs, deliberate attempts to instigate negative reactions, etc.) and sending of harmful materials (viruses, pornographic images/links, links to Discord servers that involve the aforementioned, etc.) will be removed and the User(s) in question will be given a written warning, kicked or banned depending on severity.'
+        description: 'You may speak **English** and **Tagalog** on the general messaging channel. If you speak other language, hit the admins with a DM to create a channel. Always read channel descriptions (if there is any) to be aware on any channel-specific rules. Use of inappropriate language (**excessive swears**, **racial slurs**, **deliberate attempts to instigate negative reactions**, etc.) and sending of harmful materials (**viruses**, **pornographic images/links**, etc.) will be removed and the user(s) in question will be given a written warning, kicked or banned depending on severity.'
     },
     {
         author: { name: '5. SCAMS AND OTHER FRAUDULENT BEHAVIORS' },
@@ -39,7 +39,7 @@ const DEFAULTS = [
     },
     {
         author: { name: '10. TL;DR (Too Long; Didn\'t Read)' },
-        description: 'If reading all of this takes too much of your time, you just need to follow the following:\n- Your behavior in the server must adhere to the [Discord ToS](https://discord.com/terms)\n- You must respect everyone in the server (no discrimination against each other, no doxxing)\n- You deserve to be respected in this server (report any form of discrimination against you to the mod)\n- You must not send any harmful materials in this server (NSFW, SCAM Links, etc.)\n- You must follow the mod\'s recommendation to you (In case you were warned because of a violation of the rules.)\n- If you have any questions, just ask the mods.'
+        description: 'Here\'s a summary of the rules if you don\'t want to read them all:\n☆  Your behavior in the server must adhere to the [Discord ToS](https://discord.com/terms)\n☆  You must respect everyone in the server (no discrimination against each other, no doxxing)\n☆  You deserve to be respected in this server (report any form of discrimination against you to the mod)\n☆  You must not send any harmful materials in this server (NSFW, SCAM Links, etc.)\n☆  You must follow the mod\'s recommendation to you (In case you were warned because of a violation of the rules.)\n☆  If you have any questions, just ask the mods.'
     }
 ]
 
@@ -70,7 +70,7 @@ module.exports = model('server_rule', Schema({
                 },
                 label: {
                     type: String,
-                    default: 'I accept these rules, Verify me!',
+                    default: 'I have read and understood these rules. Please verify me!',
                     validate: {
                         validator: (text) => text.length <= 80,
                         message: (text) => `Button label exceeded 80 characters => (${text.length} characters).`
