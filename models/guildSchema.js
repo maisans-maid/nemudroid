@@ -16,6 +16,10 @@ module.exports = model('server_profiles', Schema({
             default: null
         }
     },
+    cycledMessages: {
+        type: Array,
+        default: []
+    },
     rewards: {
         type: Array,
         default: []

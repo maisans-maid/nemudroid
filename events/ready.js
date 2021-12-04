@@ -4,6 +4,7 @@ const { birthdayGreeter } = require('../util/birthdayGreeter.js');
 const { registerCommands } = require('../util/registerCommands.js');
 const { setCommandPermissions } = require('../util/setCommandPermissions.js');
 const { memberVerification } = require('../util/memberVerification.js');
+const { cycleMessages } = require('../util/cycleMessages.js');
 
 module.exports = (client) => {
 
@@ -14,7 +15,10 @@ module.exports = (client) => {
     setCommandPermissions(client);
 
     // Scan Verification Requests
-    memberVerification(client)
+    memberVerification(client);
+
+    // instantiate cycledmessages
+    cycleMessages(client);
 
     // Get members on voiceChannels on startup
     client.guilds.cache.each(guild => guild
