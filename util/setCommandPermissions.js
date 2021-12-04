@@ -25,7 +25,8 @@ exports.setCommandPermissions = async function (client) {
             'ping',
             'eval',
             'nemunnouncement',
-            'reload'
+            'reload',
+            'verify'
         ];
 
         if (Guild.id !== '874162813977919488' && !('DEVCLIENTTOKEN' in process.env)){
