@@ -48,18 +48,20 @@ const command = new SlashCommandBuilder()
 .addSubcommand(subcommand => subcommand
     .setName('test')
     .setDescription('Test the message')
-);
+)
+const allowedPermissions = (Guild) => Guild.roles.cache
+    .filter(role => role.permissions.has('MANAGE_GUILD'))
+    .map(role => Object.assign({},{
+        id: role.id,
+        type: 'ROLE',
+        permission: true
+    }));
 
 
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
-
-        if (!interaction.memberPermissions.has(FLAGS.MANAGE_GUILD))
-            return interaction.reply({
-                ephemeral: true,
-                content: '❌ You are not allowed to use this command!'
-            });
 
         const subcommand = interaction.options.getSubcommand();
         const channel = interaction.options.getChannel('target');

@@ -9,16 +9,16 @@ const command = new SlashCommandBuilder()
     .setDescription('The name of the command to reload')
     .setRequired(true)
 )
+const allowedPermissions = () => [{
+    id: '545427431662682112',
+    type: 'USER',
+    permission: true
+}];
 
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
-
-        if (interaction.member.id !== '545427431662682112')
-            return interaction.reply({
-                ephemeral: true,
-                content: '❌ You are not allowed to use this command!'
-            });
 
         const commandName = interaction.options
             .getString('command');

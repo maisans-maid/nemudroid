@@ -44,16 +44,18 @@ const command = new SlashCommandBuilder()
     )
 )
 
+const allowedPermissions = (Guild) => Guild.roles.cache
+    .filter(role => role.permissions.has('MANAGE_GUILD'))
+    .map(role => Object.assign({},{
+        id: role.id,
+        type: 'ROLE',
+        permission: true
+    }));
+
 module.exports = {
   builder: command,
+  permissions: allowedPermissions,
   execute: async (client, interaction) => {
-
-        if (!interaction.memberPermissions.has(FLAGS.MANAGE_GUILD)){
-            return interaction.reply({
-                ephemeral: true,
-                content:   'You are not allowed to use this command!'
-            });
-        };
 
         const user = interaction.options.getUser('user');
 
@@ -133,7 +135,7 @@ module.exports = {
                 });
 
             const { rewards } = _document;
-            
+
             const roles = [...Array(subdocument.level + 1).keys()]
                 .slice(1)
                 .map(level => interaction.guild.roles.cache.get(

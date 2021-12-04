@@ -19,9 +19,15 @@ const command = new SlashCommandBuilder()
     .setDescription('The user who achieved this achievement')
 );
 
+const allowedPermissions = (Guild) => [{
+    id: Guild.roles.everyone.id,
+    type: 'ROLE',
+    permission: true
+}];
 
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
 
         let title = interaction.options.getString('title');

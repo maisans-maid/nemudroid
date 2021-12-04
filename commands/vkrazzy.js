@@ -39,8 +39,15 @@ const emoji = {
   "Facebook" : "902592481286320148"
 };
 
+const allowedPermissions = (Guild) => [{
+    id: Guild.roles.everyone.id,
+    type: 'ROLE',
+    permission: true
+}];
+
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
 
         const member = interaction.options.getString('member');

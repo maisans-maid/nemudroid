@@ -14,6 +14,7 @@ module.exports = (client, interaction) => {
 
         if (
             (interaction.guildId !== '874162813977919488') &&
+            (!('DEVCLIENTTOKEN' in process.env)) &&
             !globalCommands.includes(interaction.commandName)
         ) return interaction.reply({
             ephemeral: true,

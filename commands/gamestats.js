@@ -10,8 +10,15 @@ const command = new SlashCommandBuilder()
     .setDescription('The user to check the stats')
 );
 
+const allowedPermissions = (Guild) => [{
+    id: Guild.roles.everyone.id,
+    type: 'ROLE',
+    permission: true
+}];
+
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: (client, interaction) => model
         .findById(interaction.options.getUser('user')?.id || interaction.user.id)
         .then(data => Promise.resolve([new model(data), interaction.options.getUser('user') || interaction.user]))

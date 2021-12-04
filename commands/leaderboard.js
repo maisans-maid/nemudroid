@@ -14,8 +14,15 @@ const command = new SlashCommandBuilder()
 .setName('leaderboard')
 .setDescription('Display this server\'s leaderboard');
 
+const allowedPermissions = (Guild) => [{
+    id: Guild.roles.everyone.id,
+    type: 'ROLE',
+    permission: true
+}];
+
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
 
         const collection = await model.find({

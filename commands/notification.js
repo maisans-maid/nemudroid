@@ -14,9 +14,15 @@ const command = new SlashCommandBuilder()
     .setRequired(true)
 )
 
+const allowedPermissions = (Guild) => [{
+    id: Guild.roles.everyone.id,
+    type: 'ROLE',
+    permission: true
+}];
 
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
 
       const levelup = JSON.parse(interaction.options.getString('levelup'));

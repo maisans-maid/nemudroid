@@ -13,18 +13,20 @@ const command = new SlashCommandBuilder()
     .setName('channel')
     .setDescription('The channel you want the message to be sent. Defaults to the current channel.')
 )
+const allowedPermissions = (Guild) => Guild.roles.cache
+    .filter(role => role.permissions.has('MANAGE_GUILD'))
+    .map(role => Object.assign({},{
+        id: role.id,
+        type: 'ROLE',
+        permission: true
+    }));
 
 const permalink = 'https://discord.js.org/#/docs/main/stable/typedef/TextBasedChannels';
 
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
-
-        if (!interaction.memberPermissions.has(FLAGS.MANAGE_GUILD))
-            return interaction.reply({
-                ephemeral: true,
-                content: '❌ You are not allowed to use this command!'
-            });
 
         const content = interaction.options.getString('content');
 

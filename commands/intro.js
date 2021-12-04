@@ -36,8 +36,15 @@ const command = new SlashCommandBuilder()
     .setDescription('Disable this feature')
 )
 
+const allowedPermissions = (Guild) => [{
+    id: Guild.roles.everyone.id,
+    type: 'ROLE',
+    permission: true
+}];
+
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
 
         const subcommand = interaction.options.getSubcommand();

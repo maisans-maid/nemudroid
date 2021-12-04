@@ -37,8 +37,15 @@ const command = new SlashCommandBuilder()
     .setDescription('View all the level rewards for this server.')
 );
 
+const allowedPermissions = (Guild) => [{
+    id: Guild.roles.everyone.id,
+    type: 'ROLE',
+    permission: true
+}];
+
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
 
         const subcommand = interaction.options.getSubcommand();

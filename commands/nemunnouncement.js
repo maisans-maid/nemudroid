@@ -15,15 +15,19 @@ const command = new SlashCommandBuilder()
     .setDescription('The role to ping when sending nemu\'s announcements')
 )
 
+const allowedPermissions = (Guild) => Guild.roles.cache
+    .filter(role => role.permissions.has('MANAGE_GUILD'))
+    .map(role => Object.assign({},{
+        id: role.id,
+        type: 'ROLE',
+        permission: true
+    }));
+
+
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
-
-        if (!interaction.member.permissions.has('MANAGE_GUILD'))
-            return interaction.reply({
-                ephemeral: true,
-                content: 'You have no permission to use this command!'
-            });
 
         const channel = interaction.options.getChannel('text-channel');
         const role = interaction.options.getRole('ping-role');

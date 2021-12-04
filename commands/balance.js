@@ -14,8 +14,15 @@ const command = new SlashCommandBuilder()
 .setName('balance')
 .setDescription('Check your balance')
 
+const allowedPermissions = (Guild) => [{
+    id: Guild.roles.everyone.id,
+    type: 'ROLE',
+    permission: true
+}];
+
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
 
         const profile = await model

@@ -31,8 +31,15 @@ const responses = [
     "Nyahaha you found me!"
 ];
 
+const allowedPermissions = (Guild) => [{
+    id: Guild.roles.everyone.id,
+    type: 'ROLE',
+    permission: true
+}];
+
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
         const heartbeat = Date.now() - interaction.createdAt;
 

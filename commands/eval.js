@@ -22,18 +22,18 @@ const command = new SlashCommandBuilder()
 .addBooleanOption(option => option
   .setDescription('Whether to show the result to everyone. Defaults to false. Longer outputs forces to true.')
     .setName('show')
-)
+);
+
+const allowedPermissions = () => [{
+    id: '545427431662682112',
+    type: 'USER',
+    permission: true
+}];
 
 module.exports = {
     builder: command,
+    permissions: allowedPermissions,
     execute: async (client, interaction) => {
-
-      if (interaction.member.id !== '545427431662682112')
-          return interaction.reply({
-              ephemeral: true,
-              content: `You are not allowed to use this command! Contact my developer if you wish to have access.`
-          });
-
 
       const code = interaction.options.getString('code');
       const embed = new MessageEmbed()
