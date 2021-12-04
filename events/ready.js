@@ -3,6 +3,7 @@ const { calculateXPFromVoice } = require('../Structures/EXPCalc.js');
 const { birthdayGreeter } = require('../util/birthdayGreeter.js');
 const { registerCommands } = require('../util/registerCommands.js');
 const { setCommandPermissions } = require('../util/setCommandPermissions.js');
+const { memberVerification } = require('../util/memberVerification.js');
 
 module.exports = (client) => {
 
@@ -11,6 +12,9 @@ module.exports = (client) => {
 
     // SetCommandPermissions
     setCommandPermissions(client);
+
+    // Scan Verification Requests
+    memberVerification(client)
 
     // Get members on voiceChannels on startup
     client.guilds.cache.each(guild => guild
