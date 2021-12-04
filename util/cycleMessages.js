@@ -9,7 +9,6 @@ exports.cycleMessages = async function (client) {
     const documents = await model.find({});
 
     for (const document of documents){
-        console.log(document.cycledMessages)
         client.localCache.cycledMessages.set(document._id, new Collection());
         for (const message of document.cycledMessages){
             const interval = setInterval(function(){
