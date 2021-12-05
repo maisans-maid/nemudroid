@@ -17,7 +17,9 @@ exports.setCommandPermissions = async function (client) {
             .filter(command => commandWithPermissions.some(c => c.builder.name === command.name))
             .map(command => Object.assign({}, {
                 id: command.id,
-                permissions: commandWithPermissions.find(x => x.builder.name === command.name).permissions(Guild)
+                permissions: commandWithPermissions.find(x => x.builder.name === command.name)
+                .permissions(Guild)
+                .splice(0, 10) // Since Discord does not permit more than 10 permissions as of the moment
             }));
 
         const serverWideEnabledCommands = [
