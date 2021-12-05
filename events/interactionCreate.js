@@ -5,7 +5,8 @@ const globalCommands = [
     'ping',
     'eval',
     'nemunnouncement',
-    'reload'
+    'reload',
+    'verify'
 ];
 
 module.exports = (client, interaction) => {
