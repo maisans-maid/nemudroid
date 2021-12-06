@@ -26,7 +26,7 @@ exports.processTicketButton = async function (interaction) {
         });
     };
 
-    const indexIfExists = document.supportsys.categoryChannelChildren.findIndex(x => x.userId);
+    const indexIfExists = document.supportsys.categoryChannelChildren.findIndex(x => x.userId === interaction.member.id);
     const channelIfExists = indexIfExists >= 0
         ? interaction.guild.channels.cache.get(document.supportsys.categoryChannelChildren[indexIfExists].channelId)
         : null;
