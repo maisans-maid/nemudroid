@@ -9,6 +9,9 @@ const globalCommands = [
     'verify'
 ];
 
+const { processTicketButton } = require('../util/processTicketButton.js');
+const { processPollButton } = require('../util/processPollButton.js');
+
 module.exports = (client, interaction) => {
 
     if (interaction.isCommand()){
@@ -45,4 +48,10 @@ module.exports = (client, interaction) => {
         };
     };
 
+    if (interaction.isButton()){
+        //  Is it a ticket button?
+        processTicketButton(interaction);
+        // Is it a poll button?
+        processPollButton(interaction);
+    };
 };
