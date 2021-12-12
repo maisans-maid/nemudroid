@@ -4,6 +4,8 @@ const { nemunnouncement } = require('../util/nemunnouncement.js');
 
 module.exports = async (client, message) => {
 
+  if (!message.guild) return;
+
   // If guild is not nemu's do not execute.
   if (message.guild.id !== '874162813977919488')
       return;
