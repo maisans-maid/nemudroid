@@ -13,14 +13,23 @@ module.exports = async function(interaction){
         interaction.client.localCache.games
             .set('captcha', new Collection())
             .get('captcha');
+    //
+    // const timestamp = gameCache.get(interaction.user.id);
+    //
+    // if (timestamp + 144e5 > Date.now())
+    //     return interaction.reply({
+    //         ephemeral: true,
+    //         content: `I am still preparing your new set of CAPTCHAs. Please come back again ${moment(timestamp + 144e5).fromNow()}.`
+    //     });
 
-    const timestamp = gameCache.get(interaction.user.id);
-
-    if (timestamp + 144e5 > Date.now())
+    if (gameCache.has(interaction.user.id)){
         return interaction.reply({
             ephemeral: true,
-            content: `I am still preparing your new set of CAPTCHAs. Please come back again ${moment(timestamp + 144e5).fromNow()}.`
+            content: `You are already playing captcha!`
         });
+    };
+
+    gameCache.set(interaction.user.id, {});
 
     const char = String.fromCharCode(...Array(123).keys()).replace(/[\W1]/g,'');
     const code = (length) => _.sampleSize(char, length).join('');
@@ -65,7 +74,7 @@ module.exports = async function(interaction){
             return collector.stop();
         };
 
-        credits += 10;
+        credits += 7;
         length ++;
         attempts ++;
         codeText = code(length);
@@ -75,7 +84,7 @@ module.exports = async function(interaction){
         });
 
         return interaction.followUp({
-            content: `Type the characters below in under 15 seconds! (Correct Attempts: x${attempts})`,
+            content: `> *Correct Attempts: x${attempts}*`,
             files: [{
                 attachment: generateCode(),
                 name: 'nemucaptcha.png'
@@ -110,7 +119,7 @@ module.exports = async function(interaction){
         return profile
         .save()
         .then(() => {
-            gameCache.set(interaction.user.id, Date.now())
+            // gameCache.set(interaction.user.id, Date.now())
             return interaction.followUp({
                 content: content + `⚔️ This challenge has ended! You earned a total of <a:coin:907310108550266970> **${credits}** credits! (${attempts} correct attempts!)`
             });
@@ -118,6 +127,8 @@ module.exports = async function(interaction){
         .catch(e => interaction.followUp({
             ephemeral: true,
             content: `❌ Error: ${e.message}`
-        }));
+        }))
+        .finally(() => gameCache.delete(interaction.user.id));
+        ;
     });
 };
