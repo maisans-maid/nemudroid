@@ -20,11 +20,38 @@ module.exports = async function(interaction){
 
 
     //--------------game start------------------//
-    const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const alphanumeric = {
+        A: '🇦',
+        B: '🇧',
+        C: '🇨',
+        D: '🇩',
+        E: '🇪',
+        F: '🇫',
+        G: '🇬',
+        H: '🇭',
+        I: '🇮',
+        J: '🇯',
+        K: '🇰',
+        L: '🇱',
+        M: '🇲',
+        N: '🇳',
+        O: '🇴',
+        P: '🇵',
+        Q: '🇶',
+        R: '🇷',
+        S: '🇸',
+        T: '🇹',
+        U: '🇺',
+        V: '🇻',
+        W: '🇼',
+        X: '🇽',
+        Y: '🇾',
+        Z: '🇿'
+    };
 
     const topic = topics[_.random(0, topics.length - 1)].toUpperCase();
-    const correctLetters = [...new Set(topic)].filter(c => alphanumeric.includes(c));
-    const randomLetters = _.shuffle(alphanumeric)
+    const correctLetters = [...new Set(topic)].filter(c => Object.keys(alphanumeric).includes(c));
+    const randomLetters = _.shuffle(Object.keys(alphanumeric))
         .filter(c => !correctLetters.includes(c))
         .splice(0, 25 - correctLetters.length);
     const displayLetters = _.shuffle([
@@ -56,7 +83,7 @@ module.exports = async function(interaction){
     let components = _.chunk(displayLetters, 5)
         .map(chunk => new MessageActionRow().addComponents(
               chunk.map(letter => new MessageButton()
-                  .setLabel(letter)
+                  .setEmoji(alphanumeric[letter])
                   .setCustomId(letter)
                   .setStyle('SECONDARY')
               )
@@ -94,7 +121,7 @@ module.exports = async function(interaction){
                           ? true
                           : button.disabled
                     )
-                    .setLabel(button.label)
+                    .setEmoji(button.emoji)
                 )
             ));
 
