@@ -2,17 +2,26 @@
 
 const { Collection } = require('discord.js');
 const { createCanvas } = require('canvas');
+const { checkDuplicateInstance, removeInstance } = require('./_Games.util.js');
+const { basename } = require('path');
 const model = require('../../models/userSchema.js');
 const moment = require('moment');
 const _ = require('lodash');
 
 module.exports = async function(interaction){
 
-    const gameCache = interaction.client.localCache.games
-            .get('captcha') ||
-        interaction.client.localCache.games
-            .set('captcha', new Collection())
-            .get('captcha');
+    const isNotDuplicate = await checkDuplicateInstance(
+        interaction,
+        basename(__filename, '.js')
+    );
+
+    if (!isNotDuplicate) return;
+
+    // const gameCache = interaction.client.localCache.games
+    //         .get('captcha') ||
+    //     interaction.client.localCache.games
+    //         .set('captcha', new Collection())
+    //         .get('captcha');
     //
     // const timestamp = gameCache.get(interaction.user.id);
     //
@@ -22,14 +31,6 @@ module.exports = async function(interaction){
     //         content: `I am still preparing your new set of CAPTCHAs. Please come back again ${moment(timestamp + 144e5).fromNow()}.`
     //     });
 
-    if (gameCache.has(interaction.user.id)){
-        return interaction.reply({
-            ephemeral: true,
-            content: `You are already playing captcha!`
-        });
-    };
-
-    gameCache.set(interaction.user.id, {});
 
     const char = String.fromCharCode(...Array(123).keys()).replace(/[\W1]/g,'');
     const code = (length) => _.sampleSize(char, length).join('');
@@ -128,7 +129,7 @@ module.exports = async function(interaction){
             ephemeral: true,
             content: `❌ Error: ${e.message}`
         }))
-        .finally(() => gameCache.delete(interaction.user.id));
+        .finally(() => removeInstance(interaction, basename(__filename, '.js')));
         ;
     });
 };

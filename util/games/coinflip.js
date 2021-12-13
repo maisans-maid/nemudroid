@@ -1,10 +1,19 @@
 'use strict';
 
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const { checkDuplicateInstance, removeInstance } = require('./_Games.util.js');
+const { basename } = require('path');
 const model = require('../../models/userSchema.js');
 const _ = require('lodash');
 
 module.exports = async function(interaction){
+
+    const isNotDuplicate = await checkDuplicateInstance(
+        interaction,
+        basename(__filename, '.js')
+    );
+
+    if (!isNotDuplicate) return;
 
     const choices = [ 'Head', 'Tail' ];
 
@@ -100,6 +109,7 @@ module.exports = async function(interaction){
         });
     })
     .on('end', collected => {
+      removeInstance(interaction, basename(__filename, '.js'));
       const response = {
           content: '⚔️ This challenge has ended!',
           embeds: [ embed.setFooter('').setColor('RED') ],

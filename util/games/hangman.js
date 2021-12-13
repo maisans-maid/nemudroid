@@ -2,6 +2,8 @@
 
 const { codeBlock } = require('@discordjs/builders');
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const { checkDuplicateInstance, removeInstance } = require('./_Games.util.js');
+const { basename } = require('path');
 const topics = require('../../assets/json/hangman-anime-topics.json');
 const model = require('../../models/userSchema.js');
 const _ = require('lodash');
@@ -18,6 +20,12 @@ const hangs = [
 
 module.exports = async function(interaction){
 
+    const isNotDuplicate = await checkDuplicateInstance(
+        interaction,
+        basename(__filename, '.js')
+    );
+
+    if (!isNotDuplicate) return;
 
     //--------------game start------------------//
     const alphanumeric = {
@@ -223,5 +231,6 @@ module.exports = async function(interaction){
           ephemeral: true,
           content: `❌ Error: ${e.message}`
       }))
+      .finally(() => removeInstance(interaction, basename(__filename, '.js')))
     })
 };

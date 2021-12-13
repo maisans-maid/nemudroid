@@ -1,11 +1,21 @@
 'use strict';
 
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const { checkDuplicateInstance, removeInstance } = require('./_Games.util.js');
+const { basename } = require('path');
 const model = require('../../models/userSchema.js');
 const _ = require('lodash');
 const GraphemeSplitter = require('grapheme-splitter');
 
 module.exports = async function(interaction){
+
+    const isNotDuplicate = await checkDuplicateInstance(
+        interaction,
+        basename(__filename, '.js')
+    );
+
+    if (!isNotDuplicate) return;
+
     const splitter = new GraphemeSplitter();
 
     const elements = _.shuffle([
@@ -163,7 +173,8 @@ module.exports = async function(interaction){
         return profile
         .save()
         .then(() => message.edit(response))
-        .catch(e => message.edit({ content: `Error: ${e.message}`}));
+        .catch(e => message.edit({ content: `Error: ${e.message}`}))
+        .finally(() => removeInstance(interaction, basename(__filename, '.js')));
     });
 
     return;
