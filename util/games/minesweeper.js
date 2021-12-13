@@ -89,12 +89,8 @@ module.exports = async function(interaction){
                             : 'SUCCESS'
                         : button.style
                     )
-                    .setLabel(isBtn()
-                        ? revealedButton
-                        : button.label
-                    )
                     .setEmoji(isBtn()
-                        ? null
+                        ? revealedButton
                         : button.emoji
                     )
                     .setDisabled(isBtn()
@@ -140,8 +136,11 @@ module.exports = async function(interaction){
         const response = {
             content: `⚔️ This challenge has ended! You earned a total of <a:coin:907310108550266970> **${counter * 4}** credits!`,
             embeds: [ embed ],
-            components: currentComponentState.map(row => new MessageActionRow().addComponents(
-                row.components.map(button => new MessageButton(button).setDisabled(true))
+            components: currentComponentState.map((row, parentIndex) => new MessageActionRow().addComponents(
+                row.components.map((button, childIndex) => new MessageButton(button)
+                      .setEmoji(elements[childIndex + (parentIndex * 5)])
+                      .setDisabled(true)
+                )
             ))
         };
 
