@@ -6,7 +6,6 @@ const _ = require('lodash');
 
 module.exports = async function(interaction){
 
-    const won = () => [true, false][_.random(0,1)];
     const choices = [ 'Head', 'Tail' ];
 
     const row = new MessageActionRow().addComponents(
@@ -59,7 +58,9 @@ module.exports = async function(interaction){
             });
         };
 
-        const hasWon = won();
+        const botpick = choices[_.random(0, choices.length - 1)];
+        const userpick = i.customId;
+        const hasWon =  botpick === userpick;
 
         if (hasWon){
           profile.credits += 5;
@@ -67,12 +68,6 @@ module.exports = async function(interaction){
         } else {
           profile.gamestats.coin_flip.games_lost++;
         };
-
-
-        const userpick = i.customId;
-        const botpick = userpick === 'Head'
-            ? 'Tail'
-            : 'Head';
 
         if (embed.fields.length){
             embed.spliceFields(0 ,1, {
