@@ -17,18 +17,25 @@ module.exports = async function(interaction){
     if (!isNotDuplicate) return;
 
     const splitter = new GraphemeSplitter();
+    const join = el => el.join('');
 
     const elements = _.shuffle([
-        ...splitter.splitGraphemes('💥'.repeat(5)),
-        ...splitter.splitGraphemes('1️⃣'.repeat(7)),
-        ...splitter.splitGraphemes('2️⃣'.repeat(6)),
-        ...splitter.splitGraphemes('3️⃣'.repeat(5)),
-        ...splitter.splitGraphemes('4️⃣'.repeat(2)),
+    //     ...splitter.splitGraphemes('💥'.repeat(5)),
+    //     ...splitter.splitGraphemes('1️⃣'.repeat(7)),
+    //     ...splitter.splitGraphemes('2️⃣'.repeat(6)),
+    //     ...splitter.splitGraphemes('3️⃣'.repeat(5)),
+    //     ...splitter.splitGraphemes('4️⃣'.repeat(2)),
+        ..._.chunk('900751532797067264'.repeat(5), 18).map(join),
+        ..._.chunk('920289028635525161'.repeat(7), 18).map(join),
+        ..._.chunk('920289029294002196'.repeat(6), 18).map(join),
+        ..._.chunk('920289028874579979'.repeat(5), 18).map(join),
+        ..._.chunk('920289029134639145'.repeat(2), 18).map(join)
     ]);
 
+
     const embed = new MessageEmbed()
-        .setAuthor('Minesweeper - Let\'s play Minesweeper!')
-        .setDescription('Click on the buttons below while evading the bombs. Accumulated points before the bomb is clicked is the credits you will earn. There are 5 bombs in this minefield. You have a minute per turn before the game force-ends.')
+        .setAuthor('Nemusweeper | Minesweeper but with Nemu!', 'https://cdn.discordapp.com/emojis/900751532797067264.png')
+        .setDescription('Click on the buttons below while evading <:nemu_eyes:900751532797067264>. Accumulated points before <:nemu_eyes:900751532797067264> is clicked is the credits you will earn. There are 5 <:nemu_eyes:900751532797067264> in this minefield. You have a minute per turn before the game force-ends.')
         .setColor('GREEN');
 
     const components = _.chunk(elements, 5).map((chunk, parentIndex) => new MessageActionRow()
@@ -94,7 +101,8 @@ module.exports = async function(interaction){
 
                     return new MessageButton(button)
                     .setStyle(isBtn()
-                        ? revealedButton === '💥'
+                        // ? revealedButton === '💥'
+                        ? revealedButton === '900751532797067264'
                             ? 'DANGER'
                             : 'SUCCESS'
                         : button.style
@@ -113,7 +121,7 @@ module.exports = async function(interaction){
 
         currentComponentState = newComponents;
 
-        if (revealedButton === '💥'){
+        if (revealedButton === '900751532797067264' /*revealedButton === '💥'*/){
           i.deferUpdate();
           return collector.stop();
         };
@@ -122,7 +130,11 @@ module.exports = async function(interaction){
             '1️⃣': 1,
             '2️⃣': 2,
             '3️⃣': 3,
-            '4️⃣': 4
+            '4️⃣': 4,
+            '920289028635525161': 1,
+            '920289029294002196': 2,
+            '920289028874579979': 3,
+            '920289029134639145': 4
         };
 
         counter += values[revealedButton];
