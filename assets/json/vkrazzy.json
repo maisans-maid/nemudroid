@@ -1,0 +1,96 @@
+{
+  "Kamiya Juu": {
+    "Discord": "MrERxBnpwP",
+    "YouTube": {
+      "type": "c/",
+      "suffix": "KamiyaJuuVTUBER"
+    },
+    "Twitter": "JuuKamiya",
+    "Facebook": "KamiyaJuuVtuber",
+	"Wiki": "Kamiya_Juu"
+  },
+  "Hannah": {
+    "Discord": "fkFWvzBYAH",
+    "YouTube": {
+      "type": "channel/",
+      "suffix": "UC_L2ccCK468shb4wb69vB4A"
+    },
+    "Twitter": "Hannahbananya_",
+    "Twitch": "hannah_bananach",
+    "Facebook": "hannahbananach",
+	"Wiki": "Hannah_Banana"
+  },
+  "Cymations": {
+    "Discord": "QeqJmjUwMR",
+    "YouTube": {
+      "type": "c/",
+      "suffix": "CyMations"
+    },
+    "Twitter": "cymations_"
+  },
+  "Keira Ukagi": {
+    "Discord": "bAQsnMBVHm",
+    "YouTube": {
+        "type": "c/",
+        "suffix": "KeiraUkagiCh"
+  },
+    "Twitter": "KeiraUkagiCh"
+  },
+  "Kenyooki": {
+    "Discord": "baQsnMBVHm",
+    "YouTube": {
+      "type": "c/",
+      "suffix": "KenyookiCh"
+    },
+    "Twitter": "kenyooki",
+    "Twitch": "kenyooki",
+    "Facebook": "AzurelYooki"
+  },
+  "Erian Osamu": {
+    "Discord": "xGkXV6KBXj",
+    "YouTube": {
+      "type": "channel/",
+      "suffix": "UC6KUK9-HcmYpeNrqeJK2KGA"
+    },
+    "Twitter": "ErianOsamuCh",
+    "Instagram": "osamu_erian",
+    "Facebook": "OsamuErian"
+  },
+  "Yoshida Hazuki": {
+    "Discord": "nH7BWhyqYa",
+    "Twitter": "hazu_kek",
+    "YouTube": {
+      "type": "channel/",
+      "suffix": "UCv0771OMPdEyTBjp2q4UAcA"
+    }
+  },
+  "Nemu Kurosagi": {
+    "Discord": "7uSgr23H6x",
+    "Twitter": "nemusagii",
+    "YouTube": {
+      "type": "c/",
+      "suffix": "NemusagiCh"
+    },
+    "Facebook": "nemurinnn",
+    "Twitch": "nemusagii"
+  },
+  "Pan the Bread": {
+    "Discord": "5UEsZBrfYP",
+    "Twitter": "panthebread",
+    "YouTube": {
+      "type": "channel/",
+      "suffix": "UCJjjeqEYMSzdsKt6vJ78WVw"
+    },
+    "Facebook": "ppanthebread",
+	  "Wiki": "Pan"
+  },
+  "Teru Bozu": {
+    "Discord": "DF8qtNHrQc",
+    "Twitter": "ComfyTeru",
+    "YouTube": {
+      "type": "c/",
+      "suffix": "TeruCH"
+    },
+    "Facebook": "TeruTeruGame"
+  }
+}
