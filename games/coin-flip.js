@@ -77,7 +77,7 @@ module.exports = async interaction => {
             components: [ new MessageActionRow().addComponents(row.components.map(button => new MessageButton(button).setDisabled(true)))]
         };
         if (embed2) response.embeds.push(embed2);
-        return message.edit(response);
+        return message.edit(response).finally(() => interaction.client.custom.cache.games.get(interaction.guildId).delete(interaction.user.id));
     });
 
     return;
