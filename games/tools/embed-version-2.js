@@ -3,7 +3,7 @@
 const uModel = require('../../models/userSchema.js');
 const { MessageEmbed } = require('discord.js');
 
-module.exports = async (gameName, score, interaction, uDocument) => {
+module.exports = async (gameName, uDocument, interaction) => {
 
     const projection = {
         coinFlip: { '_id': 1, 'gameStats.coinFlip': 1 },
@@ -26,7 +26,7 @@ module.exports = async (gameName, score, interaction, uDocument) => {
         }));
 
     for (const [i, player] of top.reverse().entries()){
-        if (player.winRate < getWinRate([...uDocument.gameStats[gameName].scores, score])){
+        if (player.winRate < getWinRate(uDocument.gameStats[gameName].scores)){
             rank = top.length - i;
         };
     };
@@ -42,7 +42,7 @@ module.exports = async (gameName, score, interaction, uDocument) => {
                 name: `${interaction.user.tag} achieved ${ordinalize(rank)} place in ${gameName.toUpperCase()}`
             });
         if (rank === 1){
-            embed.setFooter({ text: `New High Score: ${getWinRate([...uDocument.gameStats[gameName].scores, score])} % Win Rate`});
+            embed.setFooter({ text: `New High Score: ${getWinRate(uDocument.gameStats[gameName].scores)} % Win Rate`});
         };
         if (top[rank]){
             embed.setDescription(`<@${top[rank - 1].id}> falls one place!`);
