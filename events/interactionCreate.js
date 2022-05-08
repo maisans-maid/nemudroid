@@ -1,57 +1,87 @@
 'use strict';
 
-const globalCommands = [
-    'vkrazzy',
-    'ping',
-    'eval',
-    'nemunnouncement',
-    'reload',
-    'verify'
-];
+const { MessageActionRow, MessageButton } = require('discord.js');
 
-const { processTicketButton } = require('../util/processTicketButton.js');
-const { processPollButton } = require('../util/processPollButton.js');
+const handleTicket = require('../processes/ticket-tool/handles/main.js');
+const handlePoll = require('../processes/poll/poll.handle.js');
 
-module.exports = (client, interaction) => {
+const levelCanvas = require('../utility/Canvas.level.js');
+const verifyUser = require('../utility/Member.verify.js');
 
-    if (interaction.isCommand()){
+const leaderboardPagination = require('../buttons/leaderboard.js');
+const manageUser = require('../buttons/user-management.js');
+const configureRules = require('../buttons/rules-configure-button.js');
 
-        if (
-            (interaction.guildId !== '874162813977919488') &&
-            (!('DEVCLIENTTOKEN' in process.env)) &&
-            !globalCommands.includes(interaction.commandName)
-        ) return interaction.reply({
-            ephemeral: true,
-            content: '❌ This command is exclusive to Nemu Kurosagi\'s server only.'
-        });
-
-        const exefunc = client.commands
-            .get(interaction.commandName);
-
-        if (!exefunc)
-          return interaction.reply({
-              content: `${interaction.commandName} has no or has missing command module.`,
-              ephemeral: true
-          });
-
+module.exports = async (client, interaction) => {
+    if (interaction.isCommand() || interaction.isContextMenu()){
+        const command = client.custom.commands.get(interaction.commandName);
+        if (!command){
+            return interaction.reply({
+                ephemeral: true,
+                content: `**${interaction.commandName}** has none or has missing command module.`
+            });
+        };
         try {
-            exefunc(client, interaction);
-        } catch(e) {
-            interaction[
-                interaction.deferred || interaction.replied
-                  ? 'editReply'
-                  : 'reply'
-            ]({
+            command.execute(client, interaction);
+        } catch (e) {
+            const error = {
                 ephemeral: true,
                 content: `❌ Error: ${e.message}`
-            });
+            };
+            if (interaction.deferred || interaction.replied){
+                return interaction.editReply(error);
+            } else {
+                return interaction.reply(error);
+            };
         };
     };
 
     if (interaction.isButton()){
-        //  Is it a ticket button?
-        processTicketButton(interaction);
-        // Is it a poll button?
-        processPollButton(interaction);
+        handleTicket(interaction);
+        handlePoll(interaction);
+        leaderboardPagination(interaction);
+
+        if (interaction.customId.startsWith('VERIFY')){
+            verifyUser(interaction);
+        };
+
+        if (interaction.customId.startsWith('RULES')){
+            configureRules(interaction);
+        };
+
+        if (['BAN', 'KICK'].includes(interaction.customId.split(':')[0])){
+            manageUser(interaction);
+        };
+
+        if (interaction.customId.startsWith('level')){
+            const userId = interaction.customId.split('-')[1];
+            const profile = interaction.customId.split('-')[2];
+
+            interaction.reply({
+                ephemeral: true,
+                content: '🔒 This feature is currently locked!'
+            })
+
+            // await interaction.deferUpdate();
+            //
+            // const attachment = await levelCanvas({ profile,
+            //     member: await interaction.guild.members.fetch(userId),
+            //     guild: interaction.guild
+            // });
+            //
+            // interaction.message.edit({
+            //     files: [],
+            //     files: [{ attachment, name: 'rank.png'}],
+            //     components: [
+            //         new MessageActionRow().addComponents(
+            //             new MessageButton()
+            //                 .setCustomId(`level-${interaction.member.id}-${['light', 'dark'].find(x => x!== profile)}`)
+            //                 .setLabel(`View in ${['Light', 'Dark'].find(x => x.toLowerCase() !== profile)} Mode`)
+            //                 .setStyle('SECONDARY')
+            //                 .setEmoji({'light':'🌙', 'dark':'⛅'}[profile])
+            //         )
+            //     ]
+            // });
+        };
     };
 };

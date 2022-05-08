@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = (client, newMem, oldMem) => {
     if (newMem.guild.id !== '874162813977919488') return;
 

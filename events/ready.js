@@ -1,46 +1,23 @@
 'use strict';
-const { calculateXPFromVoice } = require('../Structures/EXPCalc.js');
-const { birthdayGreeter } = require('../util/birthdayGreeter.js');
-const { registerCommands } = require('../util/registerCommands.js');
-const { setCommandPermissions } = require('../util/setCommandPermissions.js');
-const { memberVerification } = require('../util/memberVerification.js');
-const { cycleMessages } = require('../util/cycleMessages.js');
 
-module.exports = (client) => {
+const birthdayGreeter = require('../utility/Member.birthday.js');
+const afkInitializer = require('../processes/afk-scanner/initialize.js');
+// const verifyMembers = require('../utility/Member.verify.js');
+// const cycleMessages = require('../utility/Messages.cycle.js');
 
-    // RegisterCommands
-    registerCommands(client);
+module.exports = client => {
 
-    // SetCommandPermissions
-    setCommandPermissions(client);
-
-    // Scan Verification Requests
-    memberVerification(client);
-
-    // instantiate cycledmessages
-    cycleMessages(client);
-
-    // Get members on voiceChannels on startup
-    client.guilds.cache.each(guild => guild
-        .members.cache
-        .filter(member => Boolean(member.voice.channelId))
-        .filter(member => !client.localCache.usersOnVC.has(member.id))
-        .each(member => {
-            const interval = setInterval(function(){
-                return calculateXPFromVoice(client, member.voice);
-            }, 60000);
-
-            client.localCache.usersOnVC.set(
-                member.id,
-                interval[Symbol.toPrimitive]()
-            );
-        })
+    // Get members on VC on startup
+    client.guilds.cache.each(guild => guild.members.cache
+        .filter(member => Boolean(member.voice))
+        .filter(member => !client.custom.cache.voiceChannelXP.has(member.id))
+        .each(member => client.emit('voiceStateUpdate', {}, member.voice))
     );
 
-    // Greet birthday celebrants!!!
+    afkInitializer(client);
+
     birthdayGreeter(client);
-    // Run once a day
     setInterval(function(){
-        birthdayGreeter(client);
-    }, 9504e5);
+        birthdayGreeter(client)
+    }, 86_400_000);
 };
