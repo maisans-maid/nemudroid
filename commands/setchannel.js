@@ -1,6 +1,6 @@
 'use strict';
 
-const { Permissions } = require('discord.js');
+const { Permissions, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { guildSchemaPartial } = require('../utility/Typedefs.js');
 const gModel = require('../models/guildSchema.js');
@@ -48,6 +48,16 @@ const command = new SlashCommandBuilder()
         .setDescription('The text channel to use. Leave blank to remove channel.')
     )
 )
+
+.addSubcommand(subcommand => subcommand
+    .setName('verification')
+    .setDescription('Generate a verification message on this channel')
+    .addChannelOption(option => option
+        .setName('text-channel')
+        .setDescription('The text channel to use.')
+        .setRequired(true)
+    )
+)
 .addSubcommand(subcommand => subcommand
     .setName('welcomemessage')
     .setDescription('Set the selected channel to send a message everytime a member joins this server.')
@@ -69,7 +79,6 @@ module.exports = {
             ephemeral: true,
             content: '❌ The selected channel is not a `text-channel`!'
         });
-
 
         const gDocument = await gModel.findByIdOrCreate(interaction.guildId).catch(e => e);
         if (gDocument instanceof Error)  return interaction.reply({
@@ -140,6 +149,31 @@ module.exports = {
             };
         };
 
+        if (subcommand === 'verification'){
+            gDocument.channels.verification = channel.id;
+            const embeds = gDocument.text.rules.map(rule => new MessageEmbed()
+                .setColor([255,247,125])
+                .setTitle(rule.title)
+                .setDescription(rule.description)
+                .setThumbnail(rule.iconURL)
+            );
+            const components = [ new MessageActionRow().addComponents(
+                new MessageButton()
+                    .setCustomId('VERIFY:USER')
+                    .setLabel('I have read and understood these rules! Verify me!')
+                    .setStyle('SUCCESS')
+            )];
+            await channel.send({ embeds, components })
+            .then(() => interaction.reply({
+                ephemeral: true,
+                content: 'Rules has been (re)configured.'
+            }))
+            .catch(e => interaction.reply({
+                ephemeral: true,
+                content: `❌ Oh no! Something went wrong (${e.message})`
+            }));
+        };
+
         if (subcommand === 'welcomemessage'){
             gDocument.channels.welcome = channel ? channel.id : null;
             if (gDocument.channels.welcome === null){
@@ -153,10 +187,10 @@ module.exports = {
         };
 
         return gDocument.save()
-        .then(() => interaction.reply({
+        .then(() => subcommand !== 'verification' ? interaction.reply({
             content: response,
             ephemeral: true
-        }))
+        }) : Promise.resolve())
         .catch(err => interaction.reply({
             content: `❌ Oops! Something went wrong: ${err.message}`,
             ephemeral: true

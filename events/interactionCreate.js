@@ -6,10 +6,14 @@ const handleTicket = require('../processes/ticket-tool/handles/main.js');
 const handlePoll = require('../processes/poll/poll.handle.js');
 
 const levelCanvas = require('../utility/Canvas.level.js');
+const verifyUser = require('../utility/Member.verify.js');
+
 const leaderboardPagination = require('../buttons/leaderboard.js');
+const manageUser = require('../buttons/user-management.js');
+const configureRules = require('../buttons/rules-configure-button.js');
 
 module.exports = async (client, interaction) => {
-    if (interaction.isCommand()){
+    if (interaction.isCommand() || interaction.isContextMenu()){
         const command = client.custom.commands.get(interaction.commandName);
         if (!command){
             return interaction.reply({
@@ -36,6 +40,18 @@ module.exports = async (client, interaction) => {
         handleTicket(interaction);
         handlePoll(interaction);
         leaderboardPagination(interaction);
+
+        if (interaction.customId.startsWith('VERIFY')){
+            verifyUser(interaction);
+        };
+
+        if (interaction.customId.startsWith('RULES')){
+            configureRules(interaction);
+        };
+
+        if (['BAN', 'KICK'].includes(interaction.customId.split(':')[0])){
+            manageUser(interaction);
+        };
 
         if (interaction.customId.startsWith('level')){
             const userId = interaction.customId.split('-')[1];

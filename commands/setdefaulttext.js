@@ -2,6 +2,7 @@
 
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Permissions } = require('discord.js');
+const sendRuleEditUI = require('../utility/Rules.components.config.js');
 
 const gModel = require('../models/guildSchema.js');
 
@@ -15,6 +16,10 @@ const command = new SlashCommandBuilder()
         .setName('message')
         .setDescription('The message to use. Leave blank to remove text')
     )
+)
+.addSubcommand(subcommand => subcommand
+    .setName('rules')
+    .setDescription('Open the rules config editor interface')
 );
 
 module.exports = {
@@ -22,27 +27,22 @@ module.exports = {
     permissions: new Permissions('MANAGE_GUILD'),
     execute: async (client, interaction) => {
 
-        if (!interaction.member.permissions.has('MANAGE_GUILD')){
-            return interaction.reply({
-                ephemeral: true,
-                content: '❌ You have no permission to manage this server!'
-            });
-        };
-
         const subcommand = interaction.options.getSubcommand();
         const content = interaction.options.getString('message');
 
-        const gDocument = await gModel.findByIdOrCreate(interaction.guildId).catch(e => e);
-
-        if (gDocument instanceof Error){
-            return interaction.reply({
-                ephemeral: true,
-                content: `❌ Error: ${gDocument.message}`
-            });
+        // These subcommands do not require the database data, therefore they are
+        // checked first before fetching database to lessen database operations
+        if (subcommand === 'rules'){
+            return sendRuleEditUI(interaction);
         };
 
-        let response;
+        const gDocument = await gModel.findByIdOrCreate(interaction.guildId).catch(e => e);
+        if (gDocument instanceof Error) return interaction.reply({
+            ephemeral: true,
+            content: `❌ Oops! Something went wrong (${gDocument.message})`
+        });
 
+        let response;
         if (subcommand === 'welcome-message'){
             gDocument.text.welcome = content || null;
             if (gDocument.text.welcome === null){

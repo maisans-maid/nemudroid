@@ -75,6 +75,14 @@ const GuildSchema = new Schema({
             type: String,
             default: null
         },
+        rules: {
+            type: [{ title: String, description: String, iconURL: String, _id: false }],
+            default: [],
+            validate: {
+                validator: array => array.length <= 10,
+                message: () => `You can only store up to 10 rules`
+            },
+        },
         supportReasons: {
             type: [String],
             default: [
