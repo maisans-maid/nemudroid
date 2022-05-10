@@ -1,5 +1,25 @@
 const { model, Schema } = require('mongoose');
 
+// const Picker = new Schema({
+//     _id: false,
+//     category: String,
+//     limit: Number,
+//     image: { type: String, default: null },
+//     children: [{
+//         _id: false,
+//         id: String,
+//         label: String,
+//         style: {
+//             type: String,
+//             enum: ['PRIMARY', 'SECONDARY', 'SUCCESS', 'DANGER']
+//         },
+//         validate: {
+//             validator: array => array.length <= 10,
+//             message: () => `You can only store up to 10 roles per category`
+//         }
+//     }]
+// });
+
 const GuildSchema = new Schema({
     _id: String,
     afks: {
@@ -64,6 +84,24 @@ const GuildSchema = new Schema({
         verification: {
             type: String,
             default: null
+        },
+        picker: {
+            type: [{
+                _id: false,
+                category: String,
+                limit: Number,
+                image: { type: String, default: null },
+                children: [{
+                    _id: false,
+                    id: String,
+                    label: String,
+                    style: {
+                        type: String,
+                        enum: ['PRIMARY', 'SECONDARY', 'SUCCESS', 'DANGER']
+                    }
+                }]
+            }],
+            default: []
         },
         rewards: {
             type: [{ _id: false, level: String, role: String }],

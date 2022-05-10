@@ -11,6 +11,7 @@ const verifyUser = require('../utility/Member.verify.js');
 const leaderboardPagination = require('../buttons/leaderboard.js');
 const manageUser = require('../buttons/user-management.js');
 const configureRules = require('../buttons/rules-configure-button.js');
+const addRoles = require('../buttons/roles-add.js');
 
 module.exports = async (client, interaction) => {
     if (interaction.isCommand() || interaction.isContextMenu()){
@@ -47,6 +48,10 @@ module.exports = async (client, interaction) => {
 
         if (interaction.customId.startsWith('RULES')){
             configureRules(interaction);
+        };
+
+        if (interaction.customId.startsWith('ADDROLE')){
+            addRoles(interaction);
         };
 
         if (['BAN', 'KICK'].includes(interaction.customId.split(':')[0])){
