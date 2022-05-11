@@ -1,6 +1,7 @@
 'use strict';
 
 const gModel = require('../models/guildSchema.js');
+const { ModalBuilder, ModalField } = require('discord-modal');
 
 module.exports = async interaction => {
 
@@ -21,11 +22,18 @@ module.exports = async interaction => {
         content: `❌ You are already verified!`
     });
 
-    return interaction.member.roles.add(role.id).then(() => interaction.reply({
-        ephemeral: true,
-        content: '🎉 You have been successfully verified!'
-    })).catch(e => interaction.reply({
-        ephemeral: true,
-        content: `❌ Oops! Something went wrong (${e.message})`
-    }));
+    const modal = new ModalBuilder()
+        .setCustomId(`VERIFY_USER:${role.id}`)
+        .setTitle(`Before you get verified...`)
+        .addComponents(
+            new ModalField()
+                .setLabel('What should we name you?')
+                .setStyle('short')
+                .setDefaultValue(interaction.user.username)
+                .setPlaceholder('Make sure you follow the rule regarding nickname(s).')
+                .setCustomId('NICKNAME')
+                .setMax(32)
+        );
+
+    return interaction.client.modal.open(interaction, modal);
 };
