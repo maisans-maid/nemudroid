@@ -38,13 +38,15 @@ module.exports = async (client, interaction) => {
     };
 
     if (interaction.isButton()){
+        if (interaction.customId.startsWith('TICKETSYS')){
+            return handleTicket(interaction);
+        };
         switch(interaction.customId.split(':').reverse().pop()){
             case 'ADDROLE'       : addRoles(interaction);       break;
             case 'BAN'           : manageUser(interaction);     break;
             case 'KICK'          : manageUser(interaction);     break;
             case 'POLL'          : handlePoll(interaction);     break;
             case 'RULES'         : configureRules(interaction); break;
-            case 'TICKETSYS'     : handleTicket(interaction);   break;
             case 'VERIFY'        : verifyUser(interaction);     break;
             case 'XP_LEADERBOARD': lbPaginate(interaction);     break;
             default: interaction.reply({
