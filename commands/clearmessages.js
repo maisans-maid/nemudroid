@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, Collection, Permissions } = require('discord.js');
+const { MessageEmbed, Collection, Permissions, MessageActionRow, MessageButton } = require('discord.js');
 const moment = require('moment');
 const gModel = require('../models/guildSchema.js');
 
@@ -100,20 +100,21 @@ module.exports = {
             }]
         }).catch(() => {}) : undefined;
 
-        const view = res ? `[\`📄 View\`](https://txt.discord.website/?txt=${channel.id}/${res.attachments.first().id}/BULKDELETE)` : '';
-        const download = res ? `[\`🔽 Download\`](${res.attachments.first().url})` : '';
+        const components = [ new MessageActionRow().addComponents(
+            new MessageButton()
+                .setLabel('View')
+                .setStyle('LINK')
+                .setURL(`https://txt.discord.website/?txt=${channel.id}/${res.attachments.first().id}/BULKDELETE`),
+            new MessageButton()
+                .setLabel('Download')
+                .setStyle('LINK')
+                .setURL(res.attachments.first().url || 'https://discord.com')
+        )];
 
         const response = {
             content: `✅ Successfully deleted **${size}** messages!`
         };
-
-        if (res){
-            response.embeds = [
-                new MessageEmbed()
-                    .setColor('GREY')
-                    .setDescription(view + '\u2000\u2000 | \u2000\u2000' + download)
-                ]
-        };
+        if (res) response.components = components;
 
         return interaction.followUp(response);
     }
