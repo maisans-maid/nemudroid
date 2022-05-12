@@ -1,142 +1,78 @@
+'use strict';
+
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
-const _ = require('lodash');
-const model = require('../models/pollSchema.js');
+const { Permissions } = require('discord.js');
+const { ModalBuilder, ModalField } = require('discord-modal');
+// const moment = require('moment');
+
+const pModel = require('../models/pollSchema.js');
+// const embedTemplate = require('../processes/poll/poll.embed.js');
+// const componentsTemplate = require('../processes/poll/poll.components.js');
+
 
 const command = new SlashCommandBuilder()
 .setName('poll')
-.setDescription('Generate poll')
-.addStringOption(option => option
-    .setName('question')
-    .setDescription('The question for this poll (Max 256 characters)')
-    .setRequired(true)
-)
-.addStringOption(option => option
-    .setName('option-1')
-    .setDescription('Selectable option for this poll')
-    .setRequired(true)
-)
-.addStringOption(option => option
-    .setName('option-2')
-    .setDescription('Selectable option for this poll')
-    .setRequired(true)
-)
-.addStringOption(option => option
-    .setName('option-3')
-    .setDescription('Selectable option for this poll')
-)
-.addStringOption(option => option
-    .setName('option-4')
-    .setDescription('Selectable option for this poll')
-)
-.addStringOption(option => option
-    .setName('option-5')
-    .setDescription('Selectable option for this poll')
-)
-.addStringOption(option => option
-    .setName('option-6')
-    .setDescription('Selectable option for this poll')
-)
-.addStringOption(option => option
-    .setName('option-7')
-    .setDescription('Selectable option for this poll')
-)
-.addStringOption(option => option
-    .setName('option-8')
-    .setDescription('Selectable option for this poll')
-)
-.addStringOption(option => option
-    .setName('option-9')
-    .setDescription('Selectable option for this poll')
-)
-.addStringOption(option => option
-    .setName('option-10')
-    .setDescription('Selectable option for this poll')
-);
-
-const allowedPermissions = (Guild) => [{
-    id: Guild.roles.everyone.id,
-    type: 'ROLE',
-    permission: true
-}];
+.setDescription('Generate poll.')
 
 module.exports = {
     builder: command,
-    permissions: allowedPermissions,
+    permissions: new Permissions('SEND_MESSAGES'),
     execute: async (client, interaction) => {
 
-        const choices = new Map();
-        const question = interaction.options.getString('question');
-        const emojis = ['🟢','🟠','🟡','🔴','🟤','🔵','🟣','⚪','⚫','🔘'];
-        const buttons = [];
-        const pollCreationTimestamp = Date.now();
-        const pollId = pollCreationTimestamp.toString()
-
-        try {
-            let index = 0;
-            for (const num of [1,2,3,4,5,6,7,8,9,10]){
-                const option = interaction.options.getString(`option-${num}`);
-                if (!option) continue;
-
-                if (option.length > 256)
-                    throw new Error(`Option-${num} length exceeded the 256 character limit.`);
-
-                choices.set(parseInt(index) + 1, {
-                    name: option,
-                    userIds: []
-                });
-
-                buttons.push(new MessageButton()
-                    .setCustomId(`POLL:${pollId}:${parseInt(index) + 1}`)
-                    .setEmoji(emojis[index])
-                    .setStyle('SECONDARY')
-                );
-                index++;
-            };
-        } catch (e) {
-            return interaction.reply({
-                ephemeral: true,
-                content: `❌ Error: ${e.message}`
-            });
+        const authorPoll = await pModel.findOne({ authorId: interaction.member.id });
+        if (authorPoll){
+            const channel = interaction.guild.channels.cache.get(authorPoll.channelId);
+            const message = await channel.messages.fetch(authorPoll.messageId).catch(() => {});
+            if (!message) { await authorPoll.delete() } else { return interaction.reply({
+                  ephemeral: true,
+                  content: `Please end your [**previous poll**](<https://discord.com/channels/${authorPoll.guildId}/${authorPoll.channelId}/${authorPoll.messageId}>) first before making a new one.`
+            })};
         };
 
-        await interaction.deferReply({ ephemeral: true });
+        const modal = new ModalBuilder()
+            .setCustomId('POLL:CREATE')
+            .setTitle('Poll')
+            .addComponents(
+                new ModalField()
+                    .setLabel('Question')
+                    .setStyle('short')
+                    .setPlaceholder('What\'s your poll about?')
+                    .setCustomId('question')
+                    .setMax(250)
+                    .setRequired(true),
+                ...[1,2,3,4].map(n => new ModalField()
+                    .setLabel('Option')
+                    .setStyle('short')
+                    .setPlaceholder(`Add ${n == 1 ? 'an' : 'another'} option.`)
+                    .setCustomId(`option-${n}`)
+                    .setMax(250)
+                    .setRequired(n < 3 ? true : false)
+                )
+            );
 
-        const document = new model({
-            _id: pollId,
-            question: question,
-            choices: Object.fromEntries(choices),
-            creatorId: interaction.user.id,
-            createdAt: pollCreationTimestamp
-        });
+        return interaction.client.modal.open(interaction, modal);
 
-        const components = [ ..._.chunk(buttons, 5).map(row => new MessageActionRow()
-                .addComponents(row)
-            ),
-            new MessageActionRow().addComponents(
-                new MessageButton()
-                .setCustomId(`POLL:${pollId}:COLLECT`)
-                .setLabel('Collect results and end this Poll')
-                .setStyle('SUCCESS')
-            )
-        ];
+    //     return interaction.reply('🔒 This feature is locked')
+    //
 
-        const embed = new MessageEmbed()
-        .setAuthor(`Poll | ${question}`)
-        .setDescription(`*by: <@${document.creatorId}>*`)
-        .setColor([255,247,125])
-        .setFooter('Select from one of the choices below')
-        .addFields([...choices.values()].map((choice, index) => Object.assign({}, {
-            name: `${emojis[index]} - ${choice.name}`,
-            value: '0 vote(s)'
-        })));
-
-        return interaction.channel.send({ embeds: [ embed ], components})
-            .then(message => {
-                document.messageId = message.id
-                return document.save()
-            })
-            .then(document => interaction.editReply('🎉 Poll successfully created!'))
-            .catch(error => interaction.editReply(`❌ Error: ${error.message}`));
+    //
+    //     const pDocument = new pModel().register(interaction);
+    //     for (let i = 1; i < 11; i++){
+    //         const topic = interaction.options.getString(`option-${i}`);
+    //         if (topic){
+    //             pDocument.addChoice(topic);
+    //         };
+    //     };
+    //
+    //     const embed = await embedTemplate(pDocument, interaction.member.user);
+    //     const components = componentsTemplate(pDocument);
+    //
+    //     return interaction.channel.send({ embeds: [embed], components, fetchReply: true })
+    //     .then(message => {
+    //         pDocument.messageId = message.id;
+    //         return pDocument.save();
+    //     })
+    //     .then(() => interaction.reply({ ephemeral: true, content: 'Poll successfully created!'}))
+    //     .catch(err => interaction.reply({ ephemeral: true, content: `❌ Error: ${err.message}`}));
     }
 };

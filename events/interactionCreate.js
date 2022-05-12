@@ -1,57 +1,56 @@
 'use strict';
 
-const globalCommands = [
-    'vkrazzy',
-    'ping',
-    'eval',
-    'nemunnouncement',
-    'reload',
-    'verify'
-];
+const { MessageActionRow, MessageButton } = require('discord.js');
 
-const { processTicketButton } = require('../util/processTicketButton.js');
-const { processPollButton } = require('../util/processPollButton.js');
+const handleTicket = require('../processes/ticket-tool/handles/main.js');
+const handlePoll = require('../processes/poll/poll.handle.js');
 
-module.exports = (client, interaction) => {
+const levelCanvas = require('../utility/Canvas.level.js');
+const verifyUser = require('../utility/Member.verify.js');
 
-    if (interaction.isCommand()){
+const lbPaginate = require('../buttons/leaderboard.js');
+const manageUser = require('../buttons/user-management.js');
+const configureRules = require('../buttons/rules-configure-button.js');
+const addRoles = require('../buttons/roles-add.js');
 
-        if (
-            (interaction.guildId !== '874162813977919488') &&
-            (!('DEVCLIENTTOKEN' in process.env)) &&
-            !globalCommands.includes(interaction.commandName)
-        ) return interaction.reply({
+
+module.exports = async (client, interaction) => {
+    if (interaction.isCommand() || interaction.isContextMenu()){
+        const command = client.custom.commands.get(interaction.commandName);
+        if (!command) return interaction.reply({
             ephemeral: true,
-            content: '❌ This command is exclusive to Nemu Kurosagi\'s server only.'
+            content: `**${interaction.commandName}** has none or has missing command module.`
         });
-
-        const exefunc = client.commands
-            .get(interaction.commandName);
-
-        if (!exefunc)
-          return interaction.reply({
-              content: `${interaction.commandName} has no or has missing command module.`,
-              ephemeral: true
-          });
-
         try {
-            exefunc(client, interaction);
-        } catch(e) {
-            interaction[
-                interaction.deferred || interaction.replied
-                  ? 'editReply'
-                  : 'reply'
-            ]({
+            command.execute(client, interaction);
+        } catch (e) {
+            const error = {
                 ephemeral: true,
-                content: `❌ Error: ${e.message}`
-            });
+                content: `❌ Oops! Something went wrong (${e.message})`
+
+            };
+            if (interaction.deferred || interaction.replied){
+                return interaction.editReply(error);
+            } else {
+                return interaction.reply(error);
+            };
         };
     };
 
     if (interaction.isButton()){
-        //  Is it a ticket button?
-        processTicketButton(interaction);
-        // Is it a poll button?
-        processPollButton(interaction);
+        switch(interaction.customId.split(':').reverse().pop()){
+            case 'ADDROLE'       : addRoles(interaction);       break;
+            case 'BAN'           : manageUser(interaction);     break;
+            case 'KICK'          : manageUser(interaction);     break;
+            case 'POLL'          : handlePoll(interaction);     break;
+            case 'RULES'         : configureRules(interaction); break;
+            case 'TICKETSYS'     : handleTicket(interaction);   break;
+            case 'VERIFY'        : verifyUser(interaction);     break;
+            case 'XP_LEADERBOARD': lbPaginate(interaction);     break;
+            default: interaction.reply({
+                ephemeral: true,
+                content: `❌ Oops! You clicked a stray button~ (${interaction.customId}])`
+            });
+        };
     };
 };

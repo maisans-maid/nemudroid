@@ -1,9 +1,16 @@
 'use strict';
 
-const { registerCommands } = require('../util/registerCommands.js');
-const { setCommandPermissions } = require('../util/setCommandPermissions.js');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+const { readdirSync } = require('fs');
+const { join } = require('path');
 
-module.exports = (client, guild) => {
-    registerCommands(client, guild);
-    setCommandPermissions(client);
-};
+const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
+const init = require('../commands/init.js');
+
+module.exports = (client, guild) => rest.put(Routes.applicationGuildCommands(client.user.id, guild.id),{ body: [ init.builder.toJSON() ] })
+    .then(() => {
+        console.log('Successfully registered application (/) commands.');
+        return guild.commands.fetch()
+    })
+    .catch(e => console.log(e.message));

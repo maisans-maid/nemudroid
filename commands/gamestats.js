@@ -1,61 +1,38 @@
+'use strict';
+
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
-const model = require('../models/userSchema.js');
+const { Permissions } = require('discord.js');
+const { join } = require('path');
+const gamestatsCanvas = require('../utility/Canvas.gamestats.js');
 
 const command = new SlashCommandBuilder()
 .setName('gamestats')
-.setDescription('View yours or a users\' game stats')
+.setDescription('Show game stats')
 .addUserOption(option => option
     .setName('user')
-    .setDescription('The user to check the stats')
+    .setDescription('The user you want to generate the card for')
 );
-
-const allowedPermissions = (Guild) => [{
-    id: Guild.roles.everyone.id,
-    type: 'ROLE',
-    permission: true
-}];
 
 module.exports = {
     builder: command,
-    permissions: allowedPermissions,
-    execute: (client, interaction) => model
-        .findById(interaction.options.getUser('user')?.id || interaction.user.id)
-        .then(data => Promise.resolve([new model(data), interaction.options.getUser('user') || interaction.user]))
-        .then(([data, user]) => interaction.reply({
-            embeds: [
-                new MessageEmbed()
-                .setColor([255,247,125])
-                .setAuthor(`${user.tag}'s game stats~`, user.displayAvatarURL())
-                .addFields(Object.entries(data.gamestats).map(([game, props]) => {
-                    const name = game.split('_')
-                        .map(x => x[0].toUpperCase() + x.slice(1))
-                        .join(' ');
+    permissions: new Permissions('SEND_MESSAGES'),
+    execute: async (client, interaction) => {
 
-                    let value = '';
-
-                    for (const [key, val] of Object.entries(props)){
-                        const title = key.split('_')
-                            .map(x => x[0].toUpperCase() + x.slice(1))
-                            .join(' ');
-                        value += `▸ **${title}**: ${val}\n`;
-
-                        if (key === 'games_lost'){
-                            const won  = data.gamestats[game].games_won;
-                            const lost = data.gamestats[game].games_lost;
-                            const percentage = (((won / (won + lost)) * 100) || 0).toLocaleString('en-us', {
-                                maximumFractionDigits: 2
-                            });
-                            value += `▸ **Win Rate**: ${percentage}%`
-                        };
-                    }
-
-                    return { name, value };
-                }))
-            ]
-        }))
-        .catch(e => interaction.reply({
+        const user = interaction.options.getUser('user') || interaction.user;
+        if (user.bot) return interaction.reply({
             ephemeral: true,
-            content: `❌ Error: ${e.message}`
-        }))
+            content: 'Notice: Bots cannot play games!'
+        });
+
+        await interaction.deferReply();
+        const attachment = await gamestatsCanvas({
+            profile: 'dark',
+            member: await interaction.guild.members.fetch(user.id),
+            guild: interaction.guild
+        });
+
+        return interaction.editReply({
+            files: [{ attachment, name: 'games.png' }]
+        });
+    }
 };

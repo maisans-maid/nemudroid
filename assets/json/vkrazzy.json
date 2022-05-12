@@ -6,7 +6,8 @@
       "suffix": "KamiyaJuuVTUBER"
     },
     "Twitter": "JuuKamiya",
-    "Facebook": "KamiyaJuuVtuber"
+    "Facebook": "KamiyaJuuVtuber",
+	"Wiki": "Kamiya_Juu"
   },
   "Hannah": {
     "Discord": "fkFWvzBYAH",
@@ -16,7 +17,8 @@
     },
     "Twitter": "Hannahbananya_",
     "Twitch": "hannah_bananach",
-    "Facebook": "hannahbananach"
+    "Facebook": "hannahbananach",
+	"Wiki": "Hannah_Banana"
   },
   "Cymations": {
     "Discord": "QeqJmjUwMR",
@@ -26,10 +28,21 @@
     },
     "Twitter": "cymations_"
   },
-  "Keira Ukagi & Kenyooki": {
+  "Keira Ukagi": {
     "Discord": "bAQsnMBVHm",
-    "YouTube": [{ "type": "c/", "suffix": "KeiraUkagiCh"}, { "type": "c/", "suffix": "KenyookiCh" }],
-    "Twitter": [ "KeiraUkagiCh", "kenyooki" ],
+    "YouTube": {
+        "type": "c/",
+        "suffix": "KeiraUkagiCh"
+  },
+    "Twitter": "KeiraUkagiCh"
+  },
+  "Kenyooki": {
+    "Discord": "baQsnMBVHm",
+    "YouTube": {
+      "type": "c/",
+      "suffix": "KenyookiCh"
+    },
+    "Twitter": "kenyooki",
     "Twitch": "kenyooki",
     "Facebook": "AzurelYooki"
   },
@@ -68,7 +81,8 @@
       "type": "channel/",
       "suffix": "UCJjjeqEYMSzdsKt6vJ78WVw"
     },
-    "Facebook": "ppanthebread"
+    "Facebook": "ppanthebread",
+	  "Wiki": "Pan"
   },
   "Teru Bozu": {
     "Discord": "DF8qtNHrQc",
