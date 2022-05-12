@@ -48,7 +48,8 @@ const command = new SlashCommandBuilder()
         .setName('text-channel')
         .setDescription('The text channel to use. Leave blank to remove channel.')
     )
-).addSubcommand(subcommand => subcommand
+)
+.addSubcommand(subcommand => subcommand
     .setName('role-picker')
     .setDescription('Send the Role Picker UI in the selected channel')
     .addChannelOption(option => option

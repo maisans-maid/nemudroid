@@ -13,6 +13,7 @@ const manageUser = require('../buttons/user-management.js');
 const configureRules = require('../buttons/rules-configure-button.js');
 const addRoles = require('../buttons/roles-add.js');
 
+
 module.exports = async (client, interaction) => {
     if (interaction.isCommand() || interaction.isContextMenu()){
         const command = client.custom.commands.get(interaction.commandName);
@@ -26,6 +27,7 @@ module.exports = async (client, interaction) => {
             const error = {
                 ephemeral: true,
                 content: `❌ Oops! Something went wrong (${e.message})`
+
             };
             if (interaction.deferred || interaction.replied){
                 return interaction.editReply(error);

@@ -21,7 +21,7 @@ module.exports = async interaction => {
         ephemeral: true,
         content: `❌ You are already verified!`
     });
-
+  
     const modal = new ModalBuilder()
         .setCustomId(`VERIFY_USER:${role.id}`)
         .setTitle(`Before you get verified...`)

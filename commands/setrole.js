@@ -1,5 +1,6 @@
 'use strict';
 
+
 const { SlashCommandBuilder, codeBlock } = require('@discordjs/builders');
 const { Permissions } = require('discord.js');
 const { guildSchemaPartial } = require('../utility/Typedefs.js');
@@ -99,7 +100,6 @@ const command = new SlashCommandBuilder()
         .setDescription('Display current config of the role picker')
     )
 );
-
 module.exports = {
     builder: command,
     permissions: new Permissions('MANAGE_GUILD'),
