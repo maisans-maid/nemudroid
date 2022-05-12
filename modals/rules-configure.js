@@ -35,7 +35,7 @@ module.exports = async interaction => {
             ephemeral: true,
             content: '⚠ Nothing to edit.'
         });
-        if (!ruleNumber || (ruleNumber < 1) || (ruleNumber > gDocument.text.rules.length)) return interaction.reply({
+        if (!ruleNumber || (ruleNumber < 1) || (ruleNumner % 1 !== 0) || (ruleNumber > gDocument.text.rules.length)) return interaction.reply({
             ephemeral: true,
             content: `❌ Invalid number`
         });
@@ -51,7 +51,7 @@ module.exports = async interaction => {
             ephemeral: true,
             content: '⚠ Nothing to remove.'
         });
-        if (!ruleNumber || (ruleNumber < 1) || (ruleNumber > gDocument.text.rules.length)) return interaction.reply({
+        if (!ruleNumber || (ruleNumber < 1) || (ruleNumner % 1 !== 0) || (ruleNumber > gDocument.text.rules.length)) return interaction.reply({
             ephemeral: true,
             content: `❌ Invalid number`
         });
@@ -64,7 +64,7 @@ module.exports = async interaction => {
             content: '⚠ Nothing to reorder.'
         });
         order = [...new Set(order.split('-').map(x => Number(x)))];
-        if (order.some(x => !x ) || (Math.max(order) > gDocument.text.rules.length) || (Math.min(order) < 1)) return interaction.reply({
+        if (order.some(x => !x || (x < 1) || (x % 1 !== 0) || x > gDocument.text.rules.length)) return interaction.reply({
             ephemeral: true,
             content: '❌ Invalid format. Please follow the proper format'
         });

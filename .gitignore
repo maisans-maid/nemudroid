@@ -2,3 +2,5 @@ node_modules
 .old
 .env
 .gitignore
+.announce.js
+.host_notes

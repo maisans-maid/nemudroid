@@ -5,11 +5,17 @@ const submitPoll     = require('../modals/poll-submit.js');
 const configureRules = require('../modals/rules-configure.js');
 const manageUser = require('../modals/user-manage.js');
 const reportUser = require('../modals/user-report.js');
+const verifyUser = require('../modals/user-verify.js');
+
 const xpReset    = require('../modals/xp-reset.js');
 
 module.exports = async (client, interaction) => {
     if (interaction.customId.startsWith('SUBMIT_FEEDBACK')){
         submitFeedback(interaction);
+    };
+
+    if (interaction.customId.split(':').reverse().pop() == 'VERIFY_USER'){
+        verifyUser(interaction);
     };
 
     if (interaction.customId.startsWith('POLL')){

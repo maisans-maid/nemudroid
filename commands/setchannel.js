@@ -4,6 +4,7 @@ const { Permissions, MessageEmbed, MessageActionRow, MessageButton } = require('
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { guildSchemaPartial } = require('../utility/Typedefs.js');
 const gModel = require('../models/guildSchema.js');
+const _ = require('lodash');
 
 const command = new SlashCommandBuilder()
 .setName('setchannel')
@@ -48,7 +49,15 @@ const command = new SlashCommandBuilder()
         .setDescription('The text channel to use. Leave blank to remove channel.')
     )
 )
-
+.addSubcommand(subcommand => subcommand
+    .setName('role-picker')
+    .setDescription('Send the Role Picker UI in the selected channel')
+    .addChannelOption(option => option
+        .setName('text-channel')
+        .setDescription('The text channel to use.')
+        .setRequired(true)
+    )
+)
 .addSubcommand(subcommand => subcommand
     .setName('verification')
     .setDescription('Generate a verification message on this channel')
@@ -147,6 +156,38 @@ module.exports = {
                     response += '\n⚠ Please make sure my **View Channel, Send Messages, Attach Files, **and **Embed Links** Permissions are enabled on that channel!'
                 };
             };
+        };
+
+        if (subcommand === 'role-picker'){
+            if (!gDocument.roles.picker.length) return interaction.reply({
+                ephemeral: true,
+                content: '❌ You have not set any roles for the picker'
+            });
+            await interaction.deferReply({ ephemeral: true });
+            try {
+                for (const picker of gDocument.roles.picker){
+                    const image = {
+                        name: `role-picker-${picker.category}.${picker.image?.split('.').pop()}`,
+                        attachment: picker.image
+                    };
+                    await channel.send({
+                        files: picker.image ? [image] : undefined,
+                        components: _.chunk(picker.children, 5).map(chunk => new MessageActionRow().addComponents(
+                            chunk.map(children => new MessageButton()
+                                .setCustomId(`ADDROLE:${children.id}:${picker.limit}`)
+                                .setLabel(children.label)
+                                .setStyle(children.style)
+                            )
+                        ))
+                    });
+                    //wait 1 sec per iteration
+                    await new Promise(resolve => setTimeout(() => resolve()), 1000);
+                };
+                return interaction.editReply('Successfully sent role-picker UI')
+            } catch (e) {
+                return interaction.editReply(`❌ Oops! Something went wrong (${e.message})`)
+            };
+            return;
         };
 
         if (subcommand === 'verification'){

@@ -65,6 +65,24 @@ const GuildSchema = new Schema({
             type: String,
             default: null
         },
+        picker: {
+            type: [{
+                _id: false,
+                category: String,
+                limit: Number,
+                image: { type: String, default: null },
+                children: [{
+                    _id: false,
+                    id: String,
+                    label: String,
+                    style: {
+                        type: String,
+                        enum: ['PRIMARY', 'SECONDARY', 'SUCCESS', 'DANGER']
+                    }
+                }]
+            }],
+            default: []
+        },
         rewards: {
             type: [{ _id: false, level: String, role: String }],
             default: []
