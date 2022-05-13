@@ -44,7 +44,7 @@ const GuildSchema = new Schema({
             default: null
         },
         supportCategoryChildren: {
-            type: [String],
+            type: [{ _id: false, channelId: String, userId: String }],
             default: []
         },
         verification: {
