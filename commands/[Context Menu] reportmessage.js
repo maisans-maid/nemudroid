@@ -72,7 +72,7 @@ module.exports = {
 
         return channel.send({ embeds: [embed], components: [row] }).then(() => interaction.reply({
             ephemeral: true,
-            content: '✅ The message has been reported! Thank you for making this community safe!'
+            content: '✅ The message has been reported! Thank you for making this community safe! If you think this matter is serious enough to warrant attention from Discord themselves, you may open up a ticket [here](<https://dis.gd/report>). Dont know how? Click [this](<https://support.discord.com/hc/en-us/articles/360000291932-How-to-Properly-Report-Issues-to-Trust-Safety>)'
         }))
         .catch(e => interaction.reply({
             ephemeral: true,
