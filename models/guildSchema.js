@@ -3,7 +3,7 @@ const { model, Schema } = require('mongoose');
 const GuildSchema = new Schema({
     _id: String,
     afks: {
-        type: [String],
+        type: [{ _id: false, id: String, displayText: String }],
         default: []
     },
     channels: {
