@@ -19,7 +19,9 @@ module.exports = async interaction => {
         content: `❌ It seems that I don\'t have the permission to ${action.toLowerCase()} users!`
     });
 
+    let options = { reason: `${action} | By ${interaction.user.tag} via ${interaction.client.user.username}` }
     if (action === 'KICK'){
+        options = options.reason;
         const targetMember = await interaction.guild.members.fetch(targetMemberId).catch(e => e);
         if (targetMember instanceof Error) return interaction.reply({
             ephemeral: true,
@@ -27,7 +29,7 @@ module.exports = async interaction => {
         });
     };
 
-    return interaction.guild.members[action.toLowerCase()](targetMemberId, `Kicked by ${interaction.user.tag} via ${interaction.client.user.username}`)
+    return interaction.guild.members[action.toLowerCase()](targetMemberId, { reason: `Kicked by ${interaction.user.tag} via ${interaction.client.user.username}` })
         .then(() => interaction.reply({
             ephemeral: true,
             content: `User successfully ${action == 'KICK' ? 'kicked' : 'banned' }!`
