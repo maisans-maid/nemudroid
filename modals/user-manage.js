@@ -14,7 +14,7 @@ module.exports = async interaction => {
         content: '❌ Invalid Input!'
     });
 
-    if (interaction.guild.me.permissions.has(`${action}_MEMBERS`)) return interaction.reply({
+    if (!interaction.guild.me.permissions.has(`${action}_MEMBERS`)) return interaction.reply({
         ephemeral: true,
         content: `❌ It seems that I don\'t have the permission to ${action.toLowerCase()} users!`
     });
