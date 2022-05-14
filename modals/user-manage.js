@@ -29,7 +29,7 @@ module.exports = async interaction => {
         });
     };
 
-    return interaction.guild.members[action.toLowerCase()](targetMemberId, { reason: `Kicked by ${interaction.user.tag} via ${interaction.client.user.username}` })
+    return interaction.guild.members[action.toLowerCase()](targetMemberId, options)
         .then(() => interaction.reply({
             ephemeral: true,
             content: `User successfully ${action == 'KICK' ? 'kicked' : 'banned' }!`
