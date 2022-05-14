@@ -102,7 +102,7 @@ module.exports = async interaction => {
                 .setStyle('short')
                 .setPlaceholder('format (#-#-#-#-#) e.g. (1-5-3-2-4) without parenthesis')
                 .setCustomId('REORDER:ORDER')
-                .setMax(19)
+                .setMax(20)
                 .setRequired(true)
         );
     };
