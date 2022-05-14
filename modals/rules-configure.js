@@ -69,9 +69,8 @@ module.exports = async interaction => {
             content: '❌ Invalid format. Please follow the proper format'
         });
         const newOrder = [];
-        gDocument.text.rules.forEach((rule, index) => {
-            const newIndex = order[index] >= 0 ? order[index] : 10 + index;
-            newOrder[newIndex] = rule;
+        [...new Set(order.concat(1,2,3,4,5,6,7,8,9,10))].forEach((r,i) => {
+            return newOrder[i] = gDocument.text.rules[r-1];
         });
         gDocument.text.rules = newOrder;
     };
