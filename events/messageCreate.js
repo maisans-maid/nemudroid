@@ -36,7 +36,7 @@ module.exports = async (client, message) => {
                 // on.levelup
                 if (res.before.level < res.after.level){
                     const roleRewards = [...Array(res.after.level + 1).keys()].slice(1)
-                        .map(level => message.guild.roles.cache.get(gDocument.roles.rewards.find(r => r.level === level)?.role)?.id).filter(Boolean);
+                        .map(level => message.guild.roles.cache.get(gDocument.roles.rewards.find(r => r.level == level)?.role)?.id).filter(Boolean);
                     if (roleRewards.length){
                         await message.member.roles.add(roleRewards)
                             .catch(c => console.log(`ADD_XP_BY_MESSAGE: Error on adding Role -> ${c.message}`));
