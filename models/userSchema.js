@@ -1,6 +1,8 @@
 'use strict';
 
 const { model, Schema } = require('mongoose');
+const NemusBizzareAdventure = require('./nemusBASchema.js');
+
 const UserSchema = new Schema({
     _id: String,
     xp: [{
@@ -72,6 +74,7 @@ const UserSchema = new Schema({
             games_lost: { type: Number, default: 0 }
         },
     },
+    nemusBizzareAdventure: {type: NemusBizzareAdventure, default: () => ({})},
     wallpaper: { type: String, default: null, validate: {
         validator: str => str !== null ? /png|jpg|jpeg/.test(str.split('.').pop()) : true,
         message: () => 'Unable to parse media from url. Please make sure the url leads to a png, jpg, or jpeg file.'

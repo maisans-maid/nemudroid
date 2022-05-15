@@ -9,6 +9,7 @@ const levelCanvas = require('../utility/Canvas.level.js');
 const verifyUser = require('../utility/Member.verify.js');
 
 const lbPaginate = require('../buttons/leaderboard.js');
+const nemusBizzareAdventure = require('../buttons/nemus-bizzare-adventure.js');
 const manageUser = require('../buttons/user-management.js');
 const configureRules = require('../buttons/rules-configure-button.js');
 const addRoles = require('../buttons/roles-add.js');
@@ -45,6 +46,7 @@ module.exports = async (client, interaction) => {
             case 'ADDROLE'       : addRoles(interaction);       break;
             case 'BAN'           : manageUser(interaction);     break;
             case 'KICK'          : manageUser(interaction);     break;
+            case 'NBA'           : nemusBizzareAdventure(interaction); break;
             case 'POLL'          : handlePoll(interaction);     break;
             case 'RULES'         : configureRules(interaction); break;
             case 'VERIFY'        : verifyUser(interaction);     break;
