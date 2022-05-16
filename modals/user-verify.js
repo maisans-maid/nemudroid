@@ -14,6 +14,8 @@ module.exports = async interaction => {
     } else {
         response += 'You may be able to change your nickname once you reach a certain level';
     };
+    
+    if (nick == interaction.user.username) nick = null;
 
     return interaction.member.edit({ nick, roles: [ roleId ]}).then(() => interaction.reply({
         ephemeral: true,
