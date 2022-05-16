@@ -44,7 +44,7 @@ module.exports = {
         const largestWidthIndex = thumbnails.findIndex(x => x.width === largestWidth);
         const guildScheduledEventCreateOptions = {
             name: videoDetails.title,
-            description: videoDetails.shortDescription.split('----------')[0],
+            description: videoDetails.shortDescription.substr(0, 1000),
             scheduledStartTime: videoDetails.liveBroadcastDetails.startTimestamp,
             scheduledEndTime: new Date(videoDetails.liveBroadcastDetails.startTimestamp).getTime() + 3_600_000 * 2,
             privacyLevel: 'GUILD_ONLY',
