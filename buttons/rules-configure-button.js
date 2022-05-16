@@ -126,6 +126,7 @@ module.exports = async interaction => {
             .setDescription(rule.description)
             .setThumbnail(rule.iconURL)
         );
+        embeds[embeds.length - 1].setFooter({ text: 'Last updated' }).setTimestamp();
         const components = [ new MessageActionRow().addComponents(
             new MessageButton()
                 .setCustomId('VERIFY:USER')
