@@ -32,6 +32,7 @@ client.custom = {
     database: require('mongoose'),
     cache: {
         afkUsers: new Collection(),
+        eventGame: new Collection(),
         games: new Collection(),
         guildSchemaPartials: new Collection(),
         messageXP: new Collection(),

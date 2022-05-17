@@ -8,6 +8,7 @@ const handlePoll = require('../processes/poll/poll.handle.js');
 const levelCanvas = require('../utility/Canvas.level.js');
 const verifyUser = require('../utility/Member.verify.js');
 
+const eventGame = require('../buttons/event-games.js');
 const lbPaginate = require('../buttons/leaderboard.js');
 const nemusBizzareAdventure = require('../buttons/nemus-bizzare-adventure.js');
 const manageUser = require('../buttons/user-management.js');
@@ -45,6 +46,7 @@ module.exports = async (client, interaction) => {
         switch(interaction.customId.split(':').reverse().pop()){
             case 'ADDROLE'       : addRoles(interaction);       break;
             case 'BAN'           : manageUser(interaction);     break;
+            case 'EVENTGAME'     : eventGame(interaction);      break;
             case 'KICK'          : manageUser(interaction);     break;
             case 'NBA'           : nemusBizzareAdventure(interaction); break;
             case 'POLL'          : handlePoll(interaction);     break;
