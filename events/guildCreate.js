@@ -2,7 +2,7 @@
 
 const deployCommands = require('../utility/Commands.deploy.js');
 
-module.exports = (client, guild) => {
+module.exports = async (client, guild) => {
     try {
         await deployCommands(client, guild);
     } catch (err) {
