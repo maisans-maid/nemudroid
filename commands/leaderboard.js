@@ -60,6 +60,7 @@ module.exports = {
             .setColor(colors[i] || '#A9A9A9')
             .setImage(`attachment://lb-${x.id}.png`)
         );
+        embeds[embeds.length - 1].setFooter({ text: `Page 1 of ${_.chunk(collectionWithMember, 10).length}`})
         return interaction.editReply({ files, components, embeds })
     }
 };
