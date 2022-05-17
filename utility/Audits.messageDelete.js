@@ -40,10 +40,6 @@ module.exports = async message => {
 
     const { executor, target } = log;
 
-    // always use GMT+8 timezone and ignore system clock
-    const timezone = 8; // PH is on GMT+8
-    const offset = 60_000 * (new Date().getTimezoneOffset() - ( -timezone * 60));
-
     const embed = new MessageEmbed()
     .setAuthor({
         name: `${target.id === message.author?.id ? executor.tag : message.author?.tag || '???'} deleted a message!`,
@@ -56,7 +52,7 @@ module.exports = async message => {
         },
         {
             name: 'Deleted on',
-            value: `${moment(Date.now() + offset).format('LLLL')} at <#${message.channelId}>`
+            value: `${moment(Date.now()).format('LLLL')} at <#${message.channelId}>`
         },
         {
             name: 'Content',

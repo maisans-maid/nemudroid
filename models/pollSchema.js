@@ -11,9 +11,7 @@ const PollSchema = new Schema({
     // allowMultiple => allows users to cast multiple votes
     allowMultiple: { type: Boolean, default: false },
     question: { type: String, default: null },
-    options: [{ _id: false, id: Number, topic: String, voters: [String]}],
-    createdTimestamp: { type: Date, default: Date.now() },
-    lastModifiedTimestamp: { type: Date, default: Date.now() }
+    options: [{ _id: false, id: Number, topic: String, voters: [String]}]
 }, {
     versionKey: false
 });

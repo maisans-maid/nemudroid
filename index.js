@@ -1,6 +1,10 @@
 require('dotenv').config();
 require('./fonts');
+
+// Set the clock on Manila Time
 require('moment-duration-format');
+require('moment-timezone');
+require('moment').tz.setDefault('Asia/Manila')
 
 // Heroku for backup accounts, if the date is 1-25, turn off this instance.
 if ('BACKUPMODE' in process.env && new Date().getDate() < 24){

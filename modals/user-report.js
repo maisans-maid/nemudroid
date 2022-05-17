@@ -29,10 +29,6 @@ module.exports = async interaction => {
         content: '❌ Logging channel may have been deleted. Please wait for the mods to reconfigure the channel'
     });
 
-    // always use GMT+8 timezone and ignore system clock
-    const timezone = 8; // PH is on GMT+8
-    const offset = 60_000 * (new Date().getTimezoneOffset() - ( -timezone * 60));
-
     const embed = new MessageEmbed()
         .setColor('ORANGE')
         .setAuthor({ name: 'A User has been reported!' })

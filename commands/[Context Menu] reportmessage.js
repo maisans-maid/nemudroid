@@ -47,15 +47,11 @@ module.exports = {
             content: '❌ Logging channel may have been deleted. Please wait for the mods to reconfigure the channel'
         });
 
-        // always use GMT+8 timezone and ignore system clock
-        const timezone = 8; // PH is on GMT+8
-        const offset = 60_000 * (new Date().getTimezoneOffset() - ( -timezone * 60));
-
         const embed = new MessageEmbed()
             .setColor('ORANGE')
             .setAuthor({ name: `${interaction.user.tag} reported a message!` })
             .addField('Author', message.author.tag)
-            .addField('Reported on', moment(new Date(interaction.createdAt + offset)).format('LLLL'))
+            .addField('Reported on', moment(new Date(interaction.createdAt)).format('LLLL'))
             .addField('Content', content?.substring(0,1000) || '*Empty (Check Attachments)*')
             .addField('Attachments', message.attachments?.map(x => `• [${x.name}](${x.url})`).join('\n').substr(0, 1000) || '*None*');
 

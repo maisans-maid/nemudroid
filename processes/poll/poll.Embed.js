@@ -30,7 +30,7 @@ module.exports = class PollEmbed extends MessageEmbed{
                 value: this.createProgressBar(option, pDocument.totalVotes())
             };
         }))
-        .setTimestamp(pDocument.createdTimestamp);
+        .setTimestamp(pDocument.createdAt);
 
         if (pDocument.totalUniqueVotes() < 5) this.setFooter({
             text: `This poll currently has ${pDocument.totalUniqueVotes()} total votes.`
