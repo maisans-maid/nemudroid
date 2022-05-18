@@ -18,13 +18,13 @@ const colorProfile = {
     },
     light: {
         fontPrimary: '#00000E',
-        fontSecondary: '#00000E',
-        bgPrimary: 'rgb(79, 83, 92)',
-        red: 'rgb(255, 128, 128)',
-        green: 'rgb(59, 165, 93)',
-        orange: 'rgb(209, 166, 14)',
+        fontSecondary: 'rgb(131, 140, 149)',
+        bgPrimary: 'rgb(106, 116, 128)',
+        red: 'rgb(216, 60, 62)',
+        green: 'rgb(45, 125, 70)',
+        orange: 'rgb(209, 166, 14)', //
         blurple: 'rgb(88, 101, 242)',
-        disabled: 'rgb(79, 83, 92)'
+        disabled: 'rgb(206, 209, 212)'
     }
 };
 
@@ -221,7 +221,7 @@ module.exports = async options => {
     ctx.fillStyle = 'rgba(0,0,0,0.5)';
     ctx.fill();
     ctx.restore();
-    ctx.fillStyle = colors.fontPrimary;
+    ctx.fillStyle = '#FFFFFE' //colors.fontPrimary;
     ctx.font = '20px Whitney Book';
     ctx.fillText(`${(xpCurrent * 100 / (nextXpCap - xpCap)).toFixed(2)} %`, canvas.width / 2, canvas.height - 42);
 
