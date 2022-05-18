@@ -33,6 +33,11 @@ module.exports = async function (interaction){
             .setEmoji('📩')
             .setStyle('SECONDARY'),
             new MessageButton()
+            .setCustomId('TICKETSYS-FEEDBACK')
+            .setLabel('Submit a Feedback instead!')
+            .setEmoji('🗨')
+            .setStyle('SECONDARY'),
+            new MessageButton()
             .setCustomId('TICKETSYS-REFRESH')
             .setLabel('Refresh')
             .setEmoji('🔃')
