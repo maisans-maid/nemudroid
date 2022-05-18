@@ -44,7 +44,7 @@ module.exports = async interaction => {
         let description, color;
         if (answer !== correctAnswer){
             color = 'RED'
-            description = `Oh no! Your **${flags[answer]}** is incorrect! The correct answer is **${flags[correctAnswer]}**!`
+            description = `Oh no! Your answer, **${flags[answer]}**, is incorrect! The correct answer is **${flags[correctAnswer]}**!`
             interaction.client.custom.cache.eventGame.get(interaction.user.id).push(0);
         } else {
             color = 'GREEN'
