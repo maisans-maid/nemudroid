@@ -14,13 +14,15 @@ const command = new SlashCommandBuilder()
         [ 'Cymations', 'Cymations' ],
         [ 'Erian Osamu', 'Erian Osamu' ],
         [ 'Hannah', 'Hannah' ],
-        [ 'Yoshida Hazuki', 'Yoshida Hazuki' ],
+        // [ 'Yoshida Hazuki', 'Yoshida Hazuki' ], // No longer part of vkrazzy
         [ 'Kamiya Juu', 'Kamiya Juu' ],
         [ 'Keira Ukagi', 'Keira Ukagi' ],
         [ 'Kenyooki', 'Kenyooki' ],
         [ 'Nemu Kurosagi', 'Nemu Kurosagi' ],
         [ 'Pan the Bread', 'Pan the Bread' ],
         [ 'Teru Bozu', 'Teru Bozu' ],
+        [ 'Shushi', 'Shushi'],
+        [ 'Rayu', 'Rayu' ]
     ])
     .setRequired(true)
 );
@@ -56,6 +58,8 @@ const nameplates = {
   'Nemu Kurosagi': 'nemu',
   'Pan the Bread': 'pan',
   'Teru Bozu': 'teru',
+  'Shushi' : 'shushi',
+  'Rayu': 'rayu'
 };
 
 module.exports = {
@@ -109,13 +113,12 @@ module.exports = {
             };
         };
 
-        const ReplyOptions = { files: [{
+        const ReplyOptions = {};
+        if (Object.keys(data).length) ReplyOptions.components = components;
+        if (nameplates[member]) ReplyOptions.files = [{
             attachment: join(__dirname, '..', 'assets/images/vkrazzy', `namecard-${nameplates[member]}.png`),
             name: 'vkrazzy-nameplate.png'
-        }]};
-
-        if (Object.keys(data).length)
-            ReplyOptions.components = components;
+        }];
 
         return interaction.reply(ReplyOptions);
     }
