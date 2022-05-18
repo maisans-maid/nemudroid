@@ -44,7 +44,7 @@ module.exports = async interaction => {
     if (action === 'NEXT') colors.splice(0, colors.length);
 
     const currentPageMember = _.chunk(collectionWithMember, 10)[newIndex];
-    const messageOptions = {};
+    const messageOptions = { content: null };
 
     messageOptions.files = await canvasLeaderboard(currentPageMember.map(x => ({ ...x, avatarURL: fetched.get(x.id).user.displayAvatarURL({ format: 'png', size: 128 })})), newIndex);
     messageOptions.embeds = currentPageMember.map((x, i) => new MessageEmbed()
