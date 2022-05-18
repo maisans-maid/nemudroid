@@ -10,12 +10,18 @@ module.exports = async interaction => {
     if (!interaction.customId.startsWith('XP_LEADERBOARD')) return;
 
     // index refers to the index used by the previous leaderboard
-    const action = interaction.customId.split(':')[1];
+    const userId = interaction.customId.split(':')[1];
+    const action = interaction.customId.split(':')[2];
     const index = Number(interaction.customId.split(':').pop());
     const newIndex = action == 'NEXT' ? index + 1 : index - 1;
 
     const disableButtons = x => new MessageButton(x).setDisabled(true);
     const pseudoComponents = new MessageActionRow().addComponents(interaction.message.components[0].components.map(disableButtons));
+
+    if (userId !== interaction.user.id) return interaction.reply({
+        ephemeral: true,
+        content: '❌ You cannot control this interaction!'
+    });
 
     await interaction.update({
         content: 'Loading Leaderboard...',
@@ -53,7 +59,7 @@ module.exports = async interaction => {
         .setImage(`attachment://lb-${x.id}.png`)
     );
     messageOptions.components = [ pseudoComponents ];
-    messageOptions.components[0].components.map(x => x.setDisabled(false).setCustomId(`XP_LEADERBOARD:${x.customId.split(':')[1]}:${newIndex}`));
+    messageOptions.components[0].components.map(x => x.setDisabled(false).setCustomId(`XP_LEADERBOARD:${userId}:${x.customId.split(':')[2]}:${newIndex}`));
 
     if (action === 'PREV' && newIndex == 0){ // Disable Prev
         messageOptions.components[0].components.find(x => x.label === 'PREV').setDisabled(true)

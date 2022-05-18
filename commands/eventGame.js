@@ -39,7 +39,7 @@ module.exports = {
             ],
             components: [ new MessageActionRow().addComponents(
                 new MessageButton()
-                .setCustomId('EVENTGAME:NEXT')
+                .setCustomId(`EVENTGAME:${interaction.user.id}:NEXT`)
                 .setLabel('Start')
                 .setStyle('SUCCESS')
             )]

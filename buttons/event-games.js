@@ -7,10 +7,15 @@ const _ = require('lodash');
 let flags = {};
 
 module.exports = async interaction => {
+    const userId = interaction.customId.split(':')[1];
+    const action = interaction.customId.split(':')[2];
+
+    if (userId !== interaction.user.id) return interaction.reply({
+        ephemeral: true,
+        content: '❌ You cannot control this interaction!'
+    });
 
     if (!Object.keys(flags).length) flags = await fetch('https://raw.githubusercontent.com/hampusborgos/country-flags/main/countries.json').then(res => res.json()).catch(() => ({}));
-
-    const action = interaction.customId.split(':')[1];
     if (!Object.keys(flags).length){
         interaction.client.custom.cache.eventGame.delete(interaction.user.id);
         return interaction.update({
@@ -28,7 +33,7 @@ module.exports = async interaction => {
             .setColor('ORANGE')
             .setImage(`https://raw.githubusercontent.com/hampusborgos/country-flags/main/png1000px/${code.toLowerCase()}.png`)
         const buttons = [...countries, 'END'].map(x => new MessageButton()
-            .setCustomId(typeof x === 'string' ? `EVENTGAME:END` : `EVENTGAME:ANSWERED:${x[0]}:${code}`)
+            .setCustomId(typeof x === 'string' ? `EVENTGAME:${userId}:END` : `EVENTGAME:${userId}:ANSWERED:${x[0]}:${code}`)
             .setLabel(typeof x === 'string' ? 'End Game' : x[1])
             .setStyle(typeof x === 'string' ? 'DANGER' : 'PRIMARY')
         )
@@ -39,8 +44,8 @@ module.exports = async interaction => {
     };
 
     if (action === 'ANSWERED'){
-        const answer = interaction.customId.split(':')[2];
-        const correctAnswer = interaction.customId.split(':')[3];
+        const answer = interaction.customId.split(':')[3];
+        const correctAnswer = interaction.customId.split(':')[4];
         let description, color;
         if (answer !== correctAnswer){
             color = 'RED'
@@ -53,9 +58,9 @@ module.exports = async interaction => {
         };
         const embed = new MessageEmbed(interaction.message.embeds[0]).setDescription(description).setColor(color);
         const choices = interaction.message.components[0].components.map(x => new MessageButton(x).setDisabled(true));
-        choices.find(x => x.customId.split(':')[2] === answer).setStyle('DANGER');
-        choices.find(x => x.customId.split(':')[2] === correctAnswer).setStyle('SUCCESS');
-        const otherButtons = ['Next', 'End'].map(x => new MessageButton().setCustomId(`EVENTGAME:${x.toUpperCase()}`).setLabel(x).setStyle(x === 'Next' ? 'PRIMARY' : 'DANGER'));
+        choices.find(x => x.customId.split(':')[3] === answer).setStyle('DANGER');
+        choices.find(x => x.customId.split(':')[3] === correctAnswer).setStyle('SUCCESS');
+        const otherButtons = ['Next', 'End'].map(x => new MessageButton().setCustomId(`EVENTGAME:${userId}:${x.toUpperCase()}`).setLabel(x).setStyle(x === 'Next' ? 'PRIMARY' : 'DANGER'));
         return interaction.update({
             embeds: [ embed ],
             components: _.chunk([...choices, ...otherButtons], 5).map(x => new MessageActionRow().addComponents(...x))

@@ -45,12 +45,12 @@ module.exports = {
         const files = await canvasLeaderboard(_.chunk(collectionWithMember, 10)[0], 0);
         const components = [ new MessageActionRow().addComponents(
             new MessageButton()
-                .setCustomId('XP_LEADERBOARD:PREV:0')
+                .setCustomId(`XP_LEADERBOARD:${interaction.user.id}:PREV:0`)
                 .setStyle('SECONDARY')
                 .setLabel('PREV')
                 .setDisabled(true),
             new MessageButton()
-                .setCustomId('XP_LEADERBOARD:NEXT:0')
+                .setCustomId(`XP_LEADERBOARD:${interaction.user.id}:NEXT:0`)
                 .setStyle('SECONDARY')
                 .setLabel('NEXT')
                 .setDisabled(collectionWithMember.length <= 10),
