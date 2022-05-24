@@ -32,7 +32,7 @@ module.exports = {
             files: [{ attachment, name: 'rank.png' }],
             components: [new MessageActionRow().addComponents(
                 new MessageButton()
-                    .setCustomId(`level-${interaction.member.id}-light`)
+                    .setCustomId(`LEVEL:${interaction.member.id}:light`)
                     .setLabel('View in Light Mode')
                     .setStyle('SECONDARY')
                     .setEmoji('⛅')
