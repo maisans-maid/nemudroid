@@ -16,9 +16,9 @@ module.exports = async interaction => {
         return interaction.reply({
             ephemeral: true,
             content: [
-              'Main Objective: Roll the die and lead nemu to the next floor level!', '',
-              'Each roll consumes one of your die, which will replenish every 30 minutes. The number of die you currently have is displayed in the upper left corner of the image. If you roll a die without one, you\'ll receive a message prompting you cannot roll a die, and a time at which you may reroll again', '',
-              'The result of the die will determine which tile nemu will rest. It is added to the current tile where nemu belongs, and the sum is the tile where nemu will rest next.','',
+              'Main Objective: Roll the dice and lead nemu to the next floor level!', '',
+              'Each roll consumes one of your dice, which will replenish every 30 minutes. The number of dice you currently have is displayed in the upper left corner of the image. If you roll a dice without one, you\'ll receive a message prompting you cannot roll a dice, and a time at which you may reroll again', '',
+              'The result of the dice will determine which tile nemu will rest. It is added to the current tile where nemu belongs, and the sum is the tile where nemu will rest next.','',
               'There are various rewards on each tile, ranging from 5XP to 50XP. There are also tiles that will not give you xp, but instead give you a reroll (10) or advance you instantly to the next floor (5). However, there is also a tile that will bring you back to your previous floor level. (15)', '',
               'Try to reach the highest floor level among your friends (shown at the center)'
             ].join('\n')
