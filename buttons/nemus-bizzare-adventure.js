@@ -53,7 +53,7 @@ module.exports = async interaction => {
             uDocument.nemusBizzareAdventure.totalDiceConsumed++;
             content = `Congratulations! You can roll the dice again!`
         } else if ((diceInfoBefore.floorTile + result) == 15){
-            uDocument.nemusBizzareAdventure.consumeDice(-(20 + result));
+            uDocument.nemusBizzareAdventure.consumeDice(-(20 + result + (uDocument.nemusBizzareAdventure.totalLevels % 20)));
             if (uDocument.nemusBizzareAdventure.totalLevels < 0) uDocument.nemusBizzareAdventure.totalLevels = 0
             content = `Oops! Rolling a ${result} has brought you back to the previous floor level! Better luck next time!`
         } else {
