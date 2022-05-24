@@ -18,26 +18,27 @@ let emojis = [
 module.exports = class PollEmbed extends MessageEmbed{
     constructor(author, pDocument, options = {}){
         super();
+
         this.setColor(options.color || [255,247,125]);
+
         this.setTitle(pDocument.question);
+
         this.setAuthor({
             name: author.username,
             iconURL: author.displayAvatarURL()
         });
+
         this.addFields(pDocument.options.map(option => {
             return {
                 name: `[${option.id}] ${option.topic}`,
                 value: this.createProgressBar(option, pDocument.totalVotes())
             };
         }))
-        .setTimestamp(pDocument.createdAt);
 
-        if (pDocument.totalUniqueVotes() < 5) this.setFooter({
-            text: `This poll currently has ${pDocument.totalUniqueVotes()} total votes.`
-        });
+        this.setTimestamp(pDocument.createdAt);
 
-        if (pDocument.totalUniqueVotes() >= 5) this.setFooter({
-            text: `${author.username} and ${pDocument.totalUniqueVotes() - 1} others have voted.`
+        this.setFooter({
+            text: `${pDocument.totalUniqueVotes()} people have voted.`
         });
     };
 

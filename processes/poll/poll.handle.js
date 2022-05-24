@@ -15,6 +15,12 @@ module.exports = async interaction => {
     const choiceId = interaction.customId.split(':')[2];
 
     const pDocument = await model.findById(pollId);
+    const pAuthor = await interaction.client.users.fetch(pDocument.authorId).catch(() => {});
+
+    if (!pAuthor) return interaction.reply({
+        ephemeral: true,
+        content: 'The author of this poll could not be found!'
+    });
 
     const pollChannel = interaction.guild.channels.cache.get(pDocument.channelId);
 
@@ -88,7 +94,7 @@ module.exports = async interaction => {
     };
 
     pDocument.addVote(choiceId, interaction.member.id);
-    const embed = new PollEmbed(interaction.user, pDocument);
+    const embed = new PollEmbed(pAuthor, pDocument);
     const components = new PollComponents().generateComponentsFrom(pDocument);
 
     return interaction.update({
